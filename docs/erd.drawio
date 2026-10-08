@@ -1,0 +1,151 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="erd" name="ERD">
+    <mxGraphModel dx="1184" dy="646" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vt" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#1F4E79;fontColor=#FFFFFF;strokeColor=#1F4E79;swimlaneFillColor=#FFFFFF;fontSize=13;" value="VAI_TRO" vertex="1">
+          <mxGeometry height="80" width="200" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="vt" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_vai_tro" vertex="1">
+          <mxGeometry height="26" width="200" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="vt" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="200" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="vt" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ten_vai_tro" vertex="1">
+          <mxGeometry height="26" width="200" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="vt" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(30)" vertex="1">
+          <mxGeometry height="26" width="200" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="nd" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#1F4E79;fontColor=#FFFFFF;strokeColor=#1F4E79;swimlaneFillColor=#FFFFFF;fontSize=13;" value="NGUOI_DUNG" vertex="1">
+          <mxGeometry height="158" width="250" x="330" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_nguoi_dung" vertex="1">
+          <mxGeometry height="26" width="250" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="250" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ten_dang_nhap" vertex="1">
+          <mxGeometry height="26" width="250" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(50)" vertex="1">
+          <mxGeometry height="26" width="250" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;mat_khau_bam" vertex="1">
+          <mxGeometry height="26" width="250" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(255)" vertex="1">
+          <mxGeometry height="26" width="250" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ho_ten" vertex="1">
+          <mxGeometry height="26" width="250" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(100)" vertex="1">
+          <mxGeometry height="26" width="250" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_vai_tro" vertex="1">
+          <mxGeometry height="26" width="250" y="132" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" parent="nd" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="250" y="132" as="geometry" />
+        </mxCell>
+        <mxCell id="pk" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#1F4E79;fontColor=#FFFFFF;strokeColor=#1F4E79;swimlaneFillColor=#FFFFFF;fontSize=13;" value="PHIEU_KHAO_SAT" vertex="1">
+          <mxGeometry height="210" width="250" x="330" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_phieu_khao_sat" vertex="1">
+          <mxGeometry height="26" width="250" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="250" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;UK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_phieu_bh" vertex="1">
+          <mxGeometry height="26" width="250" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(20)" vertex="1">
+          <mxGeometry height="26" width="250" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_khach_hang" vertex="1">
+          <mxGeometry height="26" width="250" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="250" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_ky_thuat_vien" vertex="1">
+          <mxGeometry height="26" width="250" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="250" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;so_sao" vertex="1">
+          <mxGeometry height="26" width="250" y="132" as="geometry" />
+        </mxCell>
+        <mxCell id="c26" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="TINYINT" vertex="1">
+          <mxGeometry height="26" width="250" y="132" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;trang_thai" vertex="1">
+          <mxGeometry height="26" width="250" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(10)" vertex="1">
+          <mxGeometry height="26" width="250" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="c29" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;thoi_diem_gui" vertex="1">
+          <mxGeometry height="26" width="250" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" parent="pk" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="DATETIME" vertex="1">
+          <mxGeometry height="26" width="250" y="184" as="geometry" />
+        </mxCell>
+        <mxCell id="kt" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#1F4E79;fontColor=#FFFFFF;strokeColor=#1F4E79;swimlaneFillColor=#FFFFFF;fontSize=13;" value="KY_THUAT_VIEN" vertex="1">
+          <mxGeometry height="80" width="200" x="20" y="297" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" parent="kt" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&amp;nbsp;ma_ky_thuat_vien" vertex="1">
+          <mxGeometry height="26" width="200" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" parent="kt" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="INT" vertex="1">
+          <mxGeometry height="26" width="200" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c33" parent="kt" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;overflow=hidden;rotatable=0;fontSize=12;" value="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ho_ten" vertex="1">
+          <mxGeometry height="26" width="200" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" parent="kt" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;spacingRight=6;overflow=hidden;rotatable=0;fontSize=11;fontColor=#666666;" value="VARCHAR(100)" vertex="1">
+          <mxGeometry height="26" width="200" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="ext" parent="1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FFE6CC;strokeColor=#D79B00;strokeWidth=2;fontSize=11;" value="&lt;b&gt;PHIEU_BAO_HANH&lt;/b&gt;&lt;br&gt;(hệ thống bảo hành)&lt;br&gt;NGOÀI PHẠM VI" vertex="1">
+          <mxGeometry height="70" width="150" x="730" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="c35" edge="1" parent="1" source="vt" style="edgeStyle=none;html=1;startArrow=ERmandOne;endArrow=ERoneToMany;startFill=0;endFill=0;fontSize=11;labelBackgroundColor=#FFFFFF;" target="nd" value="được gán">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c36" edge="1" parent="1" source="nd" style="edgeStyle=none;html=1;startArrow=ERmandOne;endArrow=ERoneToMany;startFill=0;endFill=0;fontSize=11;labelBackgroundColor=#FFFFFF;" target="pk" value="gửi (khách hàng)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c37" edge="1" parent="1" source="kt" style="edgeStyle=none;html=1;startArrow=ERmandOne;endArrow=ERoneToMany;startFill=0;endFill=0;fontSize=11;labelBackgroundColor=#FFFFFF;" target="pk" value="được đánh giá">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c38" edge="1" parent="1" source="pk" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;fontSize=11;labelBackgroundColor=#FFFFFF;" target="ext" value="tham chiếu logic (không có FK)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666666;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontSize=13;" value="Chú thích" vertex="1">
+          <mxGeometry height="128" width="860" x="20" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="c39" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" value="Bảng: thanh xanh = tên bảng; mỗi dòng = một cột" vertex="1">
+          <mxGeometry height="22" width="430" x="30" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="c40" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" value="&lt;b&gt;PK&lt;/b&gt; khóa chính · &lt;b&gt;FK&lt;/b&gt; khóa ngoại · &lt;b&gt;UK&lt;/b&gt; giá trị duy nhất" vertex="1">
+          <mxGeometry height="22" width="430" x="30" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="c41" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" value="Quan hệ 1–N: hai vạch = &quot;một&quot;, chân quạ = &quot;nhiều&quot;" vertex="1">
+          <mxGeometry height="22" width="400" x="470" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="c42" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;" value="Nét đứt cam = bảng của hệ thống khác (NGOÀI PHẠM VI)" vertex="1">
+          <mxGeometry height="22" width="400" x="470" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="c43" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fontSize=11;" value="Ràng buộc: UNIQUE(ma_phieu_bh) – mỗi phiếu bảo hành tối đa một phiếu khảo sát (BR2); CHECK(so_sao BETWEEN 1 AND 5) (BR3); phiếu đã gửi không được sửa/xóa (BR4): tài khoản ứng dụng chỉ có quyền INSERT và SELECT trên PHIEU_KHAO_SAT." vertex="1">
+          <mxGeometry height="40" width="840" x="30" y="600" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
