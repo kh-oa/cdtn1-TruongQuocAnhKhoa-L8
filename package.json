@@ -1,0 +1,32 @@
+{
+  "name": "cdtn1-truongquocanhkhoa-l8",
+  "version": "1.0.0",
+  "description": "Sinh viên: Trương Quốc Anh Khoa - 2374802013450 - Track SE\r Học phần:\r Chuyên đề Tốt nghiệp 1, HK1 2026-2027\r Luồng nghiệp vụ:\r L8 – Khảo sát hài lòng CSAT/NPS\r ## 1. Mục tiêu\r Hệ thống hỗ trợ khách hàng đánh giá mức độ hài lòng sau khi hoàn tất bảo hành.\r Khách hàng có thể đánh giá từ 1 đến 5 sao và gửi nhận xét về dịch vụ bảo hành.\r Hệ thống lưu kết quả khảo sát và tổng hợp chỉ số CSAT/NPS.\r Marketing và Quản lý trung tâm có thể theo dõi kết quả khảo sát.\r ## 2. Yêu cầu môi trường\r Node.js 20 LTS\r PostgreSQL 16\r Biến môi trường: xem `.env.example`\r ## 3. Hướng dẫn chạy\r 1. `cp .env.example .env` và điền giá trị\r 2. `npm install`\r 3. `npm run db:migrate`\r 4. `npm run dev` → mở `http://localhost:3000/health`\r ## 4. Cấu trúc thư mục\r * `docs/`: Lưu tài liệu yêu cầu và phân tích hệ thống.\r * `src/`: Lưu mã nguồn của hệ thống.\r * `tests/`: Lưu các file kiểm thử.\r * `data/`: Lưu dữ liệu mẫu của case study.\r * `README.md`: Giới thiệu dự án và hướng dẫn sử dụng.\r ## 5. Kiểm thử\r `npm test` → hiển thị số test PASS.\r ## 6. Trạng thái hiện tại\r  Khởi tạo project, smoke test chạy được.\r  Hoàn thành tài liệu cơ bản cho luồng L8.\r  Module mở và thực hiện khảo sát hài lòng.\r  Module lưu kết quả khảo sát.\r  Module tổng hợp chỉ số CSAT/NPS.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/issues"
+  },
+  "homepage": "https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8#readme",
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "pg": "^8.23.1"
+  }
+}
