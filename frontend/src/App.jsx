@@ -24,6 +24,7 @@ function App() {
   const [tickets, setTickets] = useState([]);
   const [ticketId, setTicketId] = useState("");
   const [rating, setRating] = useState("");
+  const [npsScore, setNpsScore] = useState("");
   const [answers, setAnswers] = useState({});
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(true);
@@ -63,11 +64,13 @@ function App() {
       const response = await fetch(API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ticket_id: Number(ticketId),
-          rating: Number(rating),
-          feedback: [details, feedback].filter(Boolean).join("\n"),
+      body: JSON.stringify({
+        ticket_id: Number(ticketId),
+        rating: Number(rating),
+        nps_score: npsScore === "" ? null : Number(npsScore),
+        feedback: [details, feedback].filter(Boolean).join("\n"),
         }),
+
       });
 
       const result = await response.json();
@@ -81,6 +84,7 @@ function App() {
       );
       setTicketId("");
       setRating("");
+      setNpsScore("");
       setAnswers({});
       setFeedback("");
     } catch (error) {
@@ -184,6 +188,28 @@ function App() {
         <label className="field-label">
           Ý kiến đóng góp thêm (không bắt buộc)
         </label>
+        
+<div className="form-group">
+  <label className="field-label" htmlFor="nps-score">
+    Bạn có sẵn sàng giới thiệu dịch vụ bảo hành
+    của chúng tôi cho người khác không?
+  </label>
+
+  <select
+    id="nps-score"
+    value={npsScore}
+    onChange={(e) => setNpsScore(e.target.value)}
+  >
+    <option value="">Chọn điểm NPS (0–10)</option>
+
+    {Array.from({ length: 11 }, (_, i) => (
+      <option key={i} value={i}>
+        {i} điểm
+      </option>
+    ))}
+  </select>
+</div>
+
         <textarea
           rows="4"
           value={feedback}

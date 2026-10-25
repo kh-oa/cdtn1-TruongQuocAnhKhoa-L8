@@ -4,6 +4,7 @@ const pool = require("../config/db");
 
 const router = express.Router();
 
+// Lấy danh sách phiếu bảo hành chưa đánh giá
 router.get("/eligible-tickets", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -27,7 +28,7 @@ router.get("/eligible-tickets", async (req, res) => {
       data: result.rows
     });
   } catch (error) {
-    console.error("Loi lay phieu bao hanh:", error);  
+    console.error("Loi lay phieu bao hanh:", error);
     res.status(500).json({
       success: false,
       message: "Loi may chu"
@@ -35,11 +36,12 @@ router.get("/eligible-tickets", async (req, res) => {
   }
 });
 
+// Gửi đánh giá CSAT và NPS
 router.post("/", async (req, res) => {
   try {
-    const { ticket_id, rating, feedback } = req.body;
+    const { ticket_id, rating, feedback, nps_score } = req.body;
 
-    // Kiểm tra dữ liệu đầu vào
+    // Kiểm tra điểm CSAT và mã phiếu
     if (
       !Number.isSafeInteger(Number(ticket_id)) ||
       Number(ticket_id) <= 0 ||
@@ -53,9 +55,25 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Chỉ cho phép khảo sát phiếu đã hoàn tất
+    // Kiểm tra điểm NPS nếu được gửi lên
+    if (
+      nps_score !== undefined &&
+      nps_score !== null &&
+      (!Number.isInteger(nps_score) ||
+        nps_score < 0 ||
+        nps_score > 10)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Diem NPS phai tu 0 den 10"
+      });
+    }
+
+    // Kiểm tra phiếu đã hoàn tất bảo hành
     const ticket = await pool.query(
-      "SELECT ticket_id FROM warranty_ticket WHERE ticket_id = $1 AND status = $2",
+      `SELECT ticket_id
+       FROM warranty_ticket
+       WHERE ticket_id = $1 AND status = $2`,
       [ticket_id, "Hoàn tất"]
     );
 
@@ -66,13 +84,18 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Lưu đánh giá
+    // Lưu kết quả khảo sát
     const result = await pool.query(
-      `INSERT INTO survey (ticket_id, rating, feedback)
-       VALUES ($1, $2, $3)
-       ON CONFLICT (ticket_id) DO NOTHING
-       RETURNING *`,
-      [ticket_id, rating, feedback ?? null]
+      `INSERT INTO survey (
+        ticket_id,
+        rating,
+        feedback,
+        nps_score
+      )
+      VALUES ($1, $2, $3, $4)
+      ON CONFLICT (ticket_id) DO NOTHING
+      RETURNING *`,
+      [ticket_id, rating, feedback ?? null, nps_score ?? null]
     );
 
     if (result.rows.length === 0) {
@@ -96,19 +119,43 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Thống kê CSAT và NPS
 router.get("/statistics", async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT
         COUNT(*)::int AS total_surveys,
         ROUND(AVG(rating), 2) AS average_rating,
-        COUNT(*) FILTER (WHERE rating >= 4)::int
-          AS satisfied_count,
+
+        COUNT(*) FILTER (
+          WHERE rating >= 4
+        )::int AS satisfied_count,
+
         ROUND(
           100.0 * COUNT(*) FILTER (WHERE rating >= 4)
           / NULLIF(COUNT(*), 0),
           2
-        ) AS csat_percentage
+        ) AS csat_percentage,
+
+        COUNT(nps_score)::int AS total_nps,
+
+        COUNT(*) FILTER (
+          WHERE nps_score >= 9
+        )::int AS promoters,
+
+        COUNT(*) FILTER (
+          WHERE nps_score <= 6
+        )::int AS detractors,
+
+        ROUND(
+          100.0 * (
+            COUNT(*) FILTER (WHERE nps_score >= 9)
+            -
+            COUNT(*) FILTER (WHERE nps_score <= 6)
+          ) / NULLIF(COUNT(nps_score), 0),
+          2
+        ) AS nps_score
+
       FROM survey
     `);
 
@@ -116,7 +163,6 @@ router.get("/statistics", async (req, res) => {
       success: true,
       data: result.rows[0]
     });
-
   } catch (error) {
     console.error("Loi thong ke:", error);
     res.status(500).json({

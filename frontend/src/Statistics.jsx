@@ -38,51 +38,97 @@ function Statistics() {
   return (
     <div className="statistics-page">
       <h1>Thống kê hài lòng khách hàng</h1>
-      <p>Báo cáo CSAT - Dịch vụ bảo hành L8</p>
+      <p>Báo cáo CSAT/NPS - Dịch vụ bảo hành L8</p>
 
       {loading && <p>Đang tải thống kê...</p>}
 
       {error && (
         <div>
           <p role="alert">{error}</p>
-          <button onClick={loadStatistics}>Thử lại</button>
+          <button onClick={loadStatistics}>
+            Thử lại
+          </button>
         </div>
       )}
 
       {!loading && !error && stats && (
-        <div className="statistics-grid">
-          <div className="stat-card">
-            <h3>Tổng khảo sát</h3>
-            <strong>{stats.total_surveys}</strong>
+        <>
+          <h2>Thống kê CSAT</h2>
+
+          <div className="statistics-grid">
+            <div className="stat-card">
+              <h3>Tổng khảo sát</h3>
+              <strong>{stats.total_surveys}</strong>
+            </div>
+
+            <div className="stat-card">
+              <h3>Điểm trung bình</h3>
+              <strong>
+                {stats.average_rating ?? "Chưa có"}
+              </strong>
+            </div>
+
+            <div className="stat-card">
+              <h3>Khách hàng hài lòng</h3>
+              <strong>{stats.satisfied_count}</strong>
+            </div>
+
+            <div className="stat-card">
+              <h3>Chỉ số CSAT</h3>
+              <strong>
+                {stats.csat_percentage == null
+                  ? "Chưa có"
+                  : `${stats.csat_percentage}%`}
+              </strong>
+            </div>
           </div>
 
-          <div className="stat-card">
-            <h3>Điểm trung bình</h3>
-            <strong>{stats.average_rating ?? "Chưa có"}</strong>
+          <h2>Thống kê NPS</h2>
+
+          <div className="statistics-grid">
+            <div className="stat-card">
+              <h3>Tổng lượt NPS</h3>
+              <strong>{stats.total_nps ?? 0}</strong>
+            </div>
+
+            <div className="stat-card">
+              <h3>Promoters (9–10 điểm)</h3>
+              <strong>{stats.promoters ?? 0}</strong>
+            </div>
+
+            <div className="stat-card">
+              <h3>Detractors (0–6 điểm)</h3>
+              <strong>{stats.detractors ?? 0}</strong>
+            </div>
+
+            <div className="stat-card">
+              <h3>Chỉ số NPS</h3>
+              <strong>
+                {stats.nps_score == null
+                  ? "Chưa có dữ liệu"
+                  : stats.nps_score}
+              </strong>
+            </div>
           </div>
 
-          <div className="stat-card">
-            <h3>Khách hàng hài lòng</h3>
-            <strong>{stats.satisfied_count}</strong>
-          </div>
+          {stats.total_surveys === 0 && (
+            <p>Chưa có dữ liệu khảo sát.</p>
+          )}
 
-          <div className="stat-card">
-            <h3>Chỉ số CSAT</h3>
-            <strong>
-              {stats.csat_percentage === null
-                ? "Chưa có"
-                : `${stats.csat_percentage}%`}
-            </strong>
-          </div>
-        </div>
+          {stats.total_nps === 0 && (
+            <p>
+              Chưa có đánh giá NPS. Hãy gửi một khảo sát
+              có điểm từ 0 đến 10.
+            </p>
+          )}
+        </>
       )}
 
-      {!loading && !error && stats?.total_surveys === 0 && (
-        <p>Chưa có dữ liệu khảo sát.</p>
-      )}
-
-      <button onClick={loadStatistics} disabled={loading}>
-        Làm mới dữ liệu
+      <button
+        onClick={loadStatistics}
+        disabled={loading}
+      >
+        {loading ? "Đang tải..." : "Làm mới dữ liệu"}
       </button>
     </div>
   );
