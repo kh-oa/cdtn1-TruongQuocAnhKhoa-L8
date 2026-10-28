@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Statistics from "./Statistics";
+import SurveyList from "./SurveyList";
 import "./App.css";
 
 
@@ -236,6 +237,7 @@ function MarketingPage() {
   );
 }
 
+
 function MainPage() {
   const [page, setPage] = useState("survey");
 
@@ -245,12 +247,19 @@ function MainPage() {
         <button onClick={() => setPage("survey")}>
           Khảo sát khách hàng
         </button>
+
         <button onClick={() => setPage("statistics")}>
           Thống kê Marketing
         </button>
+
+        <button onClick={() => setPage("list")}>
+          Danh sách khảo sát
+        </button>
       </nav>
 
-      {page === "survey" ? <App /> : <MarketingPage />}
+      {page === "survey" && <App />}
+      {page === "statistics" && <MarketingPage />}
+      {page === "list" && <SurveyList />}
     </>
   );
 }
