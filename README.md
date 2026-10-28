@@ -2,109 +2,146 @@
 
 **Sinh viên:** Trương Quốc Anh Khoa  
 **MSSV:** 2374802013450  
-**Track:** SE – Software Engineering  
+**Track:** SE  
+**Luồng:** L8  
 **Học phần:** Chuyên đề Tốt nghiệp 1 – HK1 2026–2027
+
+**GitHub:** https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8  
+**Release:** v0.2
 
 ## 1. Giới thiệu dự án
 
-Hệ thống hỗ trợ khách hàng đánh giá mức độ hài lòng sau khi hoàn tất bảo hành.
-
-Khách hàng có thể đánh giá từ 1 đến 5 sao và gửi nhận xét. Hệ thống lưu kết quả vào cơ sở dữ liệu và hỗ trợ Marketing theo dõi thống kê CSAT.
+Hệ thống khảo sát mức độ hài lòng của khách hàng sau khi hoàn tất bảo hành. Khách hàng có thể xem các phiếu bảo hành đủ điều kiện, gửi điểm đánh giá và nhận xét. Hệ thống lưu kết quả và cung cấp thống kê CSAT/NPS.
 
 ## 2. Công nghệ sử dụng
 
 - Frontend: React, Vite
 - Backend: Node.js, Express
 - Database: PostgreSQL 18
-- Công cụ: VS Code, pgAdmin 4, Git, GitHub
+- Đóng gói và chạy ứng dụng: Docker Compose
+- Kiểm thử: Node.js Test Runner
 
-## 3. Chức năng đã hoàn thành
+## 3. Chức năng chính
 
-- Hiển thị danh sách phiếu bảo hành đủ điều kiện khảo sát.
-- Khách hàng gửi đánh giá từ 1 đến 5 sao.
-- Lưu đánh giá và nhận xét vào PostgreSQL.
-- Ngăn gửi đánh giá trùng phiếu bảo hành.
-- Kiểm tra dữ liệu đầu vào không hợp lệ.
-- Hiển thị thống kê Marketing gồm tổng khảo sát, điểm trung bình, số lượt hài lòng và tỷ lệ CSAT.
+- Lấy danh sách phiếu bảo hành đủ điều kiện khảo sát.
+- Gửi phiếu khảo sát với điểm hài lòng từ 1 đến 5.
+- Lưu nhận xét và điểm NPS từ 0 đến 10.
+- Kiểm tra dữ liệu đầu vào.
+- Ngăn gửi khảo sát trùng cho cùng một phiếu bảo hành.
+- Xem danh sách và thống kê khảo sát.
 
-## 4. Cấu trúc thư mục
+## 4. Cấu trúc dự án
 
-- `frontend/`: Giao diện React.
-- `src/`: Backend Node.js và Express.
-- `db/`: Các file liên quan đến cơ sở dữ liệu.
-- `docs/`: Tài liệu phân tích, thiết kế và kiểm thử.
-- `tests/`: Thư mục dành cho kiểm thử.
-- `data/`: Dữ liệu của dự án.
+- `frontend/`: giao diện React.
+- `src/routes/`: định nghĩa các API route.
+- `src/services/`: xử lý nghiệp vụ.
+- `src/repositories/`: truy vấn cơ sở dữ liệu.
+- `src/middlewares/`: middleware của backend.
+- `src/config/`: cấu hình kết nối database.
+- `db/migrations/`: các file migration.
+- `db/seeds/`: dữ liệu mẫu.
+- `tests/`: kiểm thử dịch vụ.
+- `docs/`: tài liệu, sơ đồ và nhật ký lỗi.
 
-## 5. Hướng dẫn chạy dự án
+## 5. Yêu cầu môi trường
 
-### 5.1. Chuẩn bị
+- Git
+- Docker Desktop có Docker Compose
+- Node.js 24 trở lên nếu muốn chạy kiểm thử bằng npm trên máy Windows
 
-Cài đặt Node.js và PostgreSQL.
+## 6. Hướng dẫn tải và chạy dự án
 
-Tạo cơ sở dữ liệu `l8_csat_nps` và các bảng cần thiết.
-
-Tạo file `.env` trong thư mục gốc và cấu hình kết nối PostgreSQL theo máy đang sử dụng. Không đưa mật khẩu hoặc file `.env` lên GitHub.
-
-### 5.2. Chạy Backend
-
-Mở Terminal tại thư mục gốc của dự án:
-
-```bash
-npm install
-node src/server.js
-```
-
-Backend chạy tại:
-
-`http://localhost:3000`
-
-Kiểm tra:
-
-`http://localhost:3000/health`
-
-### 5.3. Chạy Frontend
-
-Mở Terminal thứ hai:
+### Bước 1: Clone đúng phiên bản
 
 ```bash
-cd frontend
-npm install
-npm run dev
+git clone --branch v0.2 https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8.git
+cd cdtn1-TruongQuocAnhKhoa-L8
 ```
 
-Truy cập:
+### Bước 2: Tạo file môi trường
 
-`http://localhost:5173`
+Trên Windows PowerShell:
 
-### 5.4. Kiểm tra API
+```powershell
+Copy-Item .env.example .env
+```
 
-- `GET /api/surveys/eligible-tickets`: Lấy danh sách phiếu đủ điều kiện.
-- `POST /api/surveys`: Gửi đánh giá.
-- `GET /api/surveys/statistics`: Xem thống kê CSAT.
+Mở file `.env` và đặt `POSTGRES_PASSWORD` thành mật khẩu do người chạy dự án tự chọn. Đặt `DB_PASSWORD` cùng giá trị đó.
 
-## 6. Kết quả kiểm thử
+Không đưa file `.env` thật lên GitHub.
 
-Đã thực hiện 5 trường hợp kiểm thử:
+### Bước 3: Khởi động ứng dụng
 
-| Mã | Nội dung | Kết quả |
-|---|---|---|
-| TC01 | Gửi đánh giá hợp lệ | PASS |
-| TC02 | Không cho gửi trùng phiếu | PASS |
-| TC03 | Từ chối đánh giá ngoài 1–5 sao | PASS |
-| TC04 | Từ chối khi thiếu phiếu bảo hành | PASS |
-| TC05 | Kiểm tra thống kê CSAT | PASS |
+```bash
+docker compose up -d --build
+```
 
-**Tổng kết: 5/5 test case PASS.**
+Kiểm tra trạng thái các container:
 
-Chi tiết xem tại `docs/test-cases.md`.
+```bash
+docker compose ps
+```
 
-## 7. Chức năng chưa hoàn thành
+### Bước 4: Chạy migration và seed
 
-- Bổ sung tính toán chỉ số NPS.
-- Bổ sung kiểm thử giao diện React.
-- Bổ sung hình ảnh minh chứng.
-- Hoàn thiện thêm các tài liệu triển khai.
+```bash
+docker compose exec backend node db/migrate.js
+```
 
-## 8. Kết luận
+```bash
+docker compose exec backend node db/seed.js
+```
 
+Có thể chạy lại migration và seed để kiểm tra tính an toàn khi chạy nhiều lần.
+
+### Bước 5: Truy cập ứng dụng
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
+- Health check: http://localhost:3000/health
+
+### Bước 6: Dừng ứng dụng
+
+```bash
+docker compose down
+```
+
+Lệnh trên dừng các container nhưng giữ volume dữ liệu database.
+
+## 7. Kiểm thử
+
+Cài đặt các package ở thư mục gốc:
+
+```bash
+npm ci
+```
+
+Chạy kiểm thử:
+
+```bash
+npm test
+```
+
+Trên Windows PowerShell, có thể dùng:
+
+```powershell
+npm.cmd test
+```
+
+Các bài kiểm thử hiện có bao gồm dữ liệu hợp lệ, giá trị biên, rating không hợp lệ, phiếu bảo hành không hợp lệ và khảo sát trùng.
+
+## 8. Tài liệu liên quan
+
+- `docs/srs.md`: đặc tả yêu cầu phần mềm.
+- `docs/architecture.drawio`: sơ đồ kiến trúc.
+- `docs/erd.drawio`: sơ đồ cơ sở dữ liệu.
+- `docs/usecase.drawio`: sơ đồ use case.
+- `docs/bug-log.md`: nhật ký lỗi.
+- `docs/thay-doi-thiet-ke.md`: thay đổi thiết kế.
+- `docs/ai-disclosure.md`: khai báo sử dụng AI.
+
+## 9. Phiên bản
+
+Phiên bản nộp bài: `v0.2`.
+
+Release: https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/releases/tag/v0.2
