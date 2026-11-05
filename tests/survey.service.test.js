@@ -121,3 +121,93 @@ test("Từ chối khảo sát trùng", async () => {
     repository.createSurvey = originalCreate;
   }
 });
+// 7. Luồng đúng: gửi khảo sát hợp lệ
+test("Chấp nhận gửi khảo sát hợp lệ", async () => {
+  const originalFind = repository.findCompletedTicket;
+  const originalCreate = repository.createSurvey;
+
+  try {
+    repository.findCompletedTicket = async () => ({ ticket_id: 1 });
+    repository.createSurvey = async (ticketId, rating, feedback, nps) => ({
+      survey_id: 101,
+      ticket_id: ticketId,
+      rating,
+      feedback,
+      nps_score: nps,
+    });
+
+    const result = await service.submitSurvey({
+      ticket_id: 1,
+      rating: 4,
+      feedback: "Dịch vụ tốt",
+      nps_score: 9,
+    });
+
+    assert.equal(result.ticket_id, 1);
+    assert.equal(result.rating, 4);
+    assert.equal(result.feedback, "Dịch vụ tốt");
+    assert.equal(result.nps_score, 9);
+  } finally {
+    repository.findCompletedTicket = originalFind;
+    repository.createSurvey = originalCreate;
+  }
+});
+
+// 8. Dữ liệu sai: thiếu rating
+test("Từ chối khi thiếu rating", async () => {
+  await assert.rejects(
+    service.submitSurvey({
+      ticket_id: 1,
+      nps_score: 8,
+    }),
+    (error) => error.statusCode === 400
+  );
+});
+
+// 9. Dữ liệu sai: ticket_id bằng 0
+test("Từ chối ticket_id bằng 0", async () => {
+  await assert.rejects(
+    service.submitSurvey({
+      ticket_id: 0,
+      rating: 5,
+      nps_score: 10,
+    }),
+    (error) => error.statusCode === 400
+  );
+});
+
+// 10. Dữ liệu sai: ticket_id không phải số nguyên
+test("Từ chối ticket_id không phải số nguyên", async () => {
+  await assert.rejects(
+    service.submitSurvey({
+      ticket_id: 1.5,
+      rating: 5,
+      nps_score: 10,
+    }),
+    (error) => error.statusCode === 400
+  );
+});
+
+// 11. Dữ liệu sai: NPS nhỏ hơn 0
+test("Từ chối NPS nhỏ hơn 0", async () => {
+  await assert.rejects(
+    service.submitSurvey({
+      ticket_id: 1,
+      rating: 5,
+      nps_score: -1,
+    }),
+    (error) => error.statusCode === 400
+  );
+});
+
+// 12. Dữ liệu sai: NPS lớn hơn 10
+test("Từ chối NPS lớn hơn 10", async () => {
+  await assert.rejects(
+    service.submitSurvey({
+      ticket_id: 1,
+      rating: 5,
+      nps_score: 11,
+    }),
+    (error) => error.statusCode === 400
+  );
+});
