@@ -23,6 +23,7 @@ const labels = [
 
 // --- 1. COMPONENT ĐĂNG NHẬP ---
 function LoginPage({ onLoginSuccess }) {
+  const [selectedArea, setSelectedArea] = useState("survey");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -47,13 +48,14 @@ function LoginPage({ onLoginSuccess }) {
         throw new Error(data.error || data.message || "Đăng nhập thất bại");
       }
 
-      if (!data.token) {
+      if (!data.data?.token) {
         throw new Error("Server không trả về mã token xác thực");
       }
 
       // Lưu Token vào localStorage để xác thực các request sau này
-      localStorage.setItem("token", data.token);
-      onLoginSuccess();
+      localStorage.setItem("token", data.data.token);
+      sessionStorage.setItem("selectedArea", selectedArea);
+      onLoginSuccess(selectedArea);
     } catch (err) {
       setError(err.message || "Không thể kết nối đến server");
     } finally {
@@ -69,6 +71,19 @@ function LoginPage({ onLoginSuccess }) {
       </header>
 
       <form onSubmit={handleLogin} className="survey-form">
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label className="field-label" htmlFor="login-area">Chọn khu vực đăng nhập</label>
+          <select
+            id="login-area"
+            value={selectedArea}
+            onChange={(e) => setSelectedArea(e.target.value)}
+            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
+          >
+            <option value="survey">Khảo sát khách hàng</option>
+            <option value="statistics">Thống kê Marketing</option>
+            <option value="list">Danh sách khảo sát</option>
+          </select>
+        </div>
         <div className="form-group" style={{ marginBottom: "15px" }}>
           <label className="field-label">Tài khoản</label>
           <input
@@ -131,6 +146,8 @@ function SurveyFormApp() {
       .catch((err) => setMessage(err.message || "Không thể tải phiếu bảo hành"))
       .finally(() => setLoading(false));
   }, []);
+
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -209,6 +226,7 @@ function SurveyFormApp() {
           <option value="">
             {loading ? "Đang tải..." : "Chọn mã phiếu"}
           </option>
+          
           {tickets.map((ticket) => (
             <option key={ticket.ticket_id} value={ticket.ticket_id}>
               - {ticket.ticket_code} {ticket.product_name}
@@ -323,39 +341,44 @@ function MarketingPage() {
   );
 }
 
-// --- 3. MAIN PAGE VÀ ĐIỀU HƯỚNG ĐĂNG NHẬP ---
-export default function MainPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
-  const [page, setPage] = useState("survey");
+// --- 3. MAIN PAGE: CHỈ HIỆN KHU VỰC ĐÃ CHỌN ---
+const allowedAreas = ["survey", "statistics", "list"];
 
-  if (!isLoggedIn) {
-    return <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />;
+export default function MainPage() {
+  const [page, setPage] = useState(() => {
+    const savedArea = sessionStorage.getItem("selectedArea");
+    return allowedAreas.includes(savedArea) ? savedArea : null;
+  });
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => Boolean(localStorage.getItem("token")) &&
+      allowedAreas.includes(sessionStorage.getItem("selectedArea"))
+  );
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("selectedArea");
+    setPage(null);
+    setIsLoggedIn(false);
+  }
+
+  if (!isLoggedIn || !page) {
+    return <LoginPage onLoginSuccess={(selectedArea) => {
+      setPage(selectedArea);
+      setIsLoggedIn(true);
+    }} />;
   }
 
   return (
     <>
-      <nav className="main-nav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 20px" }}>
-        <div>
-          <button onClick={() => setPage("survey")}>
-            Khảo sát khách hàng
-          </button>
-          <button onClick={() => setPage("statistics")}>
-            Thống kê Marketing
-          </button>
-          <button onClick={() => setPage("list")}>
-            Danh sách khảo sát
-          </button>
-        </div>
-        <button 
-          onClick={() => {
-            localStorage.removeItem("token");
-            setIsLoggedIn(false);
-          }}
+      <div style={{ display: "flex", justifyContent: "flex-end", padding: "12px 20px", background: "#f7ece7" }}>
+        <button
+          type="button"
+          onClick={handleLogout}
           style={{ background: "#e74c3c", color: "white" }}
         >
           Đăng xuất
         </button>
-      </nav>
+      </div>
 
       {page === "survey" && <SurveyFormApp />}
       {page === "statistics" && <MarketingPage />}

@@ -11,7 +11,11 @@ function SurveyList() {
     setError("");
 
     try {
-      const response = await fetch("/api/surveys");
+      const response = await fetch("/api/v1/surveys", {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+});
 
       if (!response.ok) {
         throw new Error("Không thể kết nối API");
