@@ -1,39 +1,42 @@
+# BUG LOG – L8 CSAT/NPS
 
+## BUG-01: API trả HTTP 500 thay vì HTTP 400
 
-# Bug Log - L8 CSAT/NPS
+- **Severity:** Major
+- **Hiện tượng:** Dữ liệu đăng nhập không hợp lệ khiến API trả HTTP 500 thay vì HTTP 400.
+- **Cách tái hiện:** Gửi yêu cầu đăng nhập thiếu username hoặc password.
+- **Nguyên nhân:** Middleware xử lý lỗi chưa nhận thuộc tính `err.status`.
+- **Cách sửa:** Cập nhật `src/middlewares/error.middleware.js` để xử lý `err.statusCode` và `err.status`.
+- **Kiểm tra lại:** Chạy bộ test API authentication; xác nhận lỗi dữ liệu được xử lý với HTTP 400.
+- **Trạng thái:** Fixed
+- **Commit:** [fb20abb](https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/commit/fb20abb)
 
-## BUG-01: Backend không kết nối được
+## BUG-02: Nhân viên có thể xóa phiếu bảo hành không đúng quyền
 
-- Hiện tượng: Không truy cập được `localhost:3000`.
-- Nguyên nhân: Backend chưa được khởi động.
-- Cách sửa: Khởi động Backend và kiểm tra trạng thái dịch vụ.
-- Kiểm tra lại: Truy cập endpoint `/health`.
-- Trạng thái: Đã sửa.
+- **Severity:** Major
+- **Hiện tượng:** Chức năng xóa phiếu bảo hành chưa giới hạn đúng vai trò người dùng.
+- **Cách tái hiện:** Đăng nhập bằng tài khoản Staff và gửi yêu cầu DELETE đến `/api/v1/warranty-tickets/:id`.
+- **Nguyên nhân:** Route xóa chưa áp dụng kiểm tra quyền Admin.
+- **Cách sửa:** Bổ sung middleware `requireRole("admin")` cho chức năng xóa phiếu bảo hành.
+- **Kiểm tra lại:** Staff bị từ chối với HTTP 403; Admin được phép thực hiện theo quyền.
+- **Trạng thái:** Fixed
+- **Commit:** [c629021](https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/commit/c629021)
 
+## BUG-03: Đăng nhập thất bại khi chạy bằng Docker
 
-## BUG-02: API thiếu requestId trong phản hồi lỗi
+- **Severity:** Major
+- **Hiện tượng:** Đăng nhập trả HTTP 500 khi Backend chạy trong Docker.
+- **Cách tái hiện:** Khởi động Docker Compose khi Backend không được truyền biến môi trường `JWT_SECRET`, sau đó thực hiện đăng nhập.
+- **Nguyên nhân:** `docker-compose.yml` chưa truyền `JWT_SECRET` vào container Backend.
+- **Cách sửa:** Bổ sung `JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}` trong phần `backend.environment`.
+- **Kiểm tra lại:** Khởi động lại Backend bằng Docker Compose và xác nhận đăng nhập thành công.
+- **Trạng thái:** Fixed
+- **Commit:** [4d3ea8a](https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/commit/4d3ea8a)
 
-- Hiện tượng: API trả HTTP 400 nhưng JSON không có `requestId`.
-- Nguyên nhân: Backend đang chạy phiên bản code cũ.
-- Cách sửa: Dừng tiến trình Node.js cũ và khởi động lại Backend.
-- Kiểm tra lại: Gửi lại yêu cầu không hợp lệ và kiểm tra phản hồi.
-- Trạng thái: Đã sửa.
+## Tổng kết
 
-
-## BUG-03: PowerShell gửi JSON không hợp lệ
-
-- Hiện tượng: API báo lỗi JSON không hợp lệ.
-- Nguyên nhân: Cách xử lý dấu nháy trong PowerShell.
-- Cách sửa: Sử dụng `curl.exe` với JSON được định dạng đúng.
-- Kiểm tra lại: Gửi yêu cầu và kiểm tra phản hồi API.
-- Trạng thái: Đã sửa.
-
-
-## BUG-04: Không chạy được migration từ PowerShell trên máy Windows
-
-- Hiện tượng: Kết nối PostgreSQL thất bại khi chạy migration trực tiếp trên Windows.
-- Nguyên nhân: PostgreSQL trong Docker Compose chưa được công bố cổng để kết nối từ máy Windows.
-- Cách sửa: Chạy migration bên trong container Backend bằng `docker compose exec backend node db/migrate.js`.
-- Kiểm tra lại: Chạy migration trong container và xác nhận thông báo hoàn tất.
-- Trạng thái: Đã chạy thành công trong container.
-
+- **Tổng số lỗi:** 3
+- **Severity:** 3 Major
+- **Đã sửa:** 3
+- **Chưa sửa:** 0
+- **Bộ kiểm thử tự động:** 35 PASS / 35 tests tại thời điểm chạy kiểm thử
