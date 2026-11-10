@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const service = require("../services/warranty.service");
+const { requireRole } = require("../middlewares/auth.middleware");
 
 // GET - Lấy tất cả phiếu bảo hành
 router.get("/", async (req, res, next) => {
@@ -71,8 +72,8 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-// DELETE - Xóa phiếu bảo hành
-router.delete("/:id", async (req, res, next) => {
+// DELETE - Chỉ Admin được xóa phiếu bảo hành
+router.delete("/:id", requireRole("admin"), async (req, res, next) => {
   try {
     const data = await service.deleteTicket(req.params.id);
 
