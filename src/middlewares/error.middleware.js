@@ -1,8 +1,10 @@
 
 function errorHandler(err, req, res, next) {
+  const status = err.statusCode ?? err.status;
+
   const statusCode =
-    err.statusCode >= 400 && err.statusCode < 600
-      ? err.statusCode
+    Number.isInteger(status) && status >= 400 && status < 600
+      ? status
       : 500;
 
   // Ghi chi tiet loi trong Terminal
