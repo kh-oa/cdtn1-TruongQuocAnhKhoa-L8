@@ -25,6 +25,7 @@ services:
       DB_NAME: l8_csat_nps
       DB_USER: postgres
       DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
     depends_on:
       db:
         condition: service_healthy
@@ -33,6 +34,8 @@ services:
     build: ./frontend
     ports:
       - "5173:5173"
+    environment:
+      API_PROXY_TARGET: http://backend:3000
     depends_on:
       - backend
 
