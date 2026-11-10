@@ -51,8 +51,10 @@ app.use("/api/v1/surveys", surveyRoutes);
 console.log("Survey routes đã được đăng ký thành công");
 
 // Đăng ký Warranty Routes
+const { requireAuth } = require("./middlewares/auth.middleware");
+
 const warrantyRoutes = require("./routes/warranty.routes");
-app.use("/api/v1/warranty-tickets", warrantyRoutes);
+app.use("/api/v1/warranty-tickets", requireAuth, warrantyRoutes);
 console.log("Warranty routes đã được đăng ký thành công");
 
 // Xử lý lỗi tập trung
