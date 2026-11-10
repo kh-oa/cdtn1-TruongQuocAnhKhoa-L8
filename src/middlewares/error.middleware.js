@@ -5,9 +5,10 @@ function errorHandler(err, req, res, next) {
       ? err.statusCode
       : 500;
 
+  // Ghi chi tiet loi trong Terminal
   console.error(
     `[ERROR] [${req.requestId || "unknown"}]`,
-    err.message
+    err
   );
 
   res.status(statusCode).json({

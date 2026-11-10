@@ -97,11 +97,64 @@ async function getAllSurveys() {
   return result.rows;
 }
 
+ // Lay chi tiet khao sat theo ID
+async function getSurveyById(id) {
+  const result = await pool.query(
+    `SELECT
+       s.survey_id,
+       s.ticket_id,
+       wt.ticket_code,
+       s.rating,
+       s.nps_score,
+       s.feedback,
+       s.submitted_at
+     FROM survey s
+     JOIN warranty_ticket wt
+       ON s.ticket_id = wt.ticket_id
+     WHERE s.survey_id = $1`,
+    [id]
+  );
+
+  return result.rows[0] || null;
+}
+
+// Cap nhat khao sat
+async function updateSurvey(id, rating, feedback, npsScore) {
+  const result = await pool.query(
+    `UPDATE survey
+     SET rating = $1,
+         feedback = $2,
+         nps_score = $3
+     WHERE survey_id = $4
+     RETURNING *`,
+    [rating, feedback, npsScore, id]
+  );
+
+  return result.rows[0] || null;
+}
+
+// Xoa khao sat
+async function deleteSurvey(id) {
+  const result = await pool.query(
+    `DELETE FROM survey
+     WHERE survey_id = $1
+     RETURNING *`,
+    [id]
+  );
+
+  return result.rows[0] || null;
+}
+
+
 
 module.exports = {
   getEligibleTickets,
   findCompletedTicket,
   createSurvey,
   getStatistics,
-  getAllSurveys
+  getAllSurveys,
+  getSurveyById,
+  updateSurvey,
+  deleteSurvey
 };
+

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 function Statistics() {
@@ -11,16 +10,22 @@ function Statistics() {
     setError("");
 
     try {
-      const response = await fetch("/api/surveys/statistics");
+      // Đã bổ sung token xác thực Authorization
+      const response = await fetch("/api/v1/surveys/statistics", {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      const text = await response.text();
+      const result = text ? JSON.parse(text) : {};
 
       if (!response.ok) {
-        throw new Error("Không thể kết nối API");
+        throw new Error(result.message || result.error || "Không thể kết nối API");
       }
 
-      const result = await response.json();
-
       if (!result.success) {
-        throw new Error("Không thể lấy thống kê");
+        throw new Error(result.message || "Không thể lấy thống kê");
       }
 
       setStats(result.data);
@@ -44,7 +49,7 @@ function Statistics() {
 
       {error && (
         <div>
-          <p role="alert">{error}</p>
+          <p role="alert" style={{ color: "red" }}>{error}</p>
           <button onClick={loadStatistics}>
             Thử lại
           </button>
@@ -127,6 +132,7 @@ function Statistics() {
       <button
         onClick={loadStatistics}
         disabled={loading}
+        style={{ marginTop: "20px" }}
       >
         {loading ? "Đang tải..." : "Làm mới dữ liệu"}
       </button>

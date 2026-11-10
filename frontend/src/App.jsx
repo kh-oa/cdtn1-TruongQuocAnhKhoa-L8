@@ -3,8 +3,8 @@ import Statistics from "./Statistics";
 import SurveyList from "./SurveyList";
 import "./App.css";
 
-
-const API = "/api/surveys";
+const API = "/api/v1/surveys";
+const AUTH_API = "/api/v1/auth/login";
 
 const criteria = [
   "Chất lượng sửa chữa",
@@ -21,7 +21,90 @@ const labels = [
   "Rất không hài lòng",
 ];
 
-function App() {
+// --- 1. COMPONENT ĐĂNG NHẬP ---
+function LoginPage({ onLoginSuccess }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch(AUTH_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const textResponse = await response.text();
+      const data = textResponse ? JSON.parse(textResponse) : {};
+
+      if (!response.ok) {
+        throw new Error(data.error || data.message || "Đăng nhập thất bại");
+      }
+
+      if (!data.token) {
+        throw new Error("Server không trả về mã token xác thực");
+      }
+
+      // Lưu Token vào localStorage để xác thực các request sau này
+      localStorage.setItem("token", data.token);
+      onLoginSuccess();
+    } catch (err) {
+      setError(err.message || "Không thể kết nối đến server");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="survey-page" style={{ maxWidth: "400px", margin: "80px auto" }}>
+      <header className="brand">
+        <span className="brand-icon">◕</span>
+        L8 Warranty Service - Đăng Nhập
+      </header>
+
+      <form onSubmit={handleLogin} className="survey-form">
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label className="field-label">Tài khoản</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            placeholder="Nhập tài khoản (vd: admin)"
+            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
+          />
+        </div>
+
+        <div className="form-group" style={{ marginBottom: "15px" }}>
+          <label className="field-label">Mật khẩu</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Nhập mật khẩu..."
+            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
+          />
+        </div>
+
+        <button type="submit" disabled={loading} style={{ width: "100%", padding: "10px" }}>
+          {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+        </button>
+
+        {error && <p className="notice" role="status" style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+      </form>
+    </div>
+  );
+}
+
+// --- 2. COMPONENT KHẢO SÁT CHÍNH ---
+function SurveyFormApp() {
   const [tickets, setTickets] = useState([]);
   const [ticketId, setTicketId] = useState("");
   const [rating, setRating] = useState("");
@@ -33,16 +116,19 @@ function App() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch(`${API}/eligible-tickets`)
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
+    fetch(`${API}/eligible-tickets`, {
+      headers: {
+        // Gắn kèm Token vào header nếu API yêu cầu xác thực
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then(async (res) => {
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : {};
+        if (!res.ok || !data.success) throw new Error(data.message || "Không thể tải phiếu bảo hành");
+        setTickets(data.data || []);
       })
-      .then((result) => {
-        if (!result.success) throw new Error();
-        setTickets(result.data);
-      })
-      .catch(() => setMessage("Không thể tải phiếu bảo hành"))
+      .catch((err) => setMessage(err.message || "Không thể tải phiếu bảo hành"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -64,17 +150,21 @@ function App() {
 
       const response = await fetch(API, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ticket_id: Number(ticketId),
-        rating: Number(rating),
-        nps_score: npsScore === "" ? null : Number(npsScore),
-        feedback: [details, feedback].filter(Boolean).join("\n"),
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({
+          ticket_id: Number(ticketId),
+          rating: Number(rating),
+          nps_score: npsScore === "" ? null : Number(npsScore),
+          feedback: [details, feedback].filter(Boolean).join("\n"),
         }),
-
       });
 
-      const result = await response.json();
+      const textResponse = await response.text();
+      const result = textResponse ? JSON.parse(textResponse) : {};
+
       if (!response.ok || !result.success) {
         throw new Error(result.message || "Gửi thất bại");
       }
@@ -121,7 +211,7 @@ function App() {
           </option>
           {tickets.map((ticket) => (
             <option key={ticket.ticket_id} value={ticket.ticket_id}>
-              {ticket.ticket_code} - {ticket.product_name}
+              - {ticket.ticket_code} {ticket.product_name}
             </option>
           ))}
         </select>
@@ -186,31 +276,28 @@ function App() {
           </table>
         </div>
 
+        <div className="form-group" style={{ marginTop: "15px" }}>
+          <label className="field-label" htmlFor="nps-score">
+            Bạn có sẵn sàng giới thiệu dịch vụ bảo hành
+            của chúng tôi cho người khác không?
+          </label>
+          <select
+            id="nps-score"
+            value={npsScore}
+            onChange={(e) => setNpsScore(e.target.value)}
+          >
+            <option value="">Chọn điểm NPS (0–10)</option>
+            {Array.from({ length: 11 }, (_, i) => (
+              <option key={i} value={i}>
+                {i} điểm
+              </option>
+            ))}
+          </select>
+        </div>
+
         <label className="field-label">
           Ý kiến đóng góp thêm (không bắt buộc)
         </label>
-        
-<div className="form-group">
-  <label className="field-label" htmlFor="nps-score">
-    Bạn có sẵn sàng giới thiệu dịch vụ bảo hành
-    của chúng tôi cho người khác không?
-  </label>
-
-  <select
-    id="nps-score"
-    value={npsScore}
-    onChange={(e) => setNpsScore(e.target.value)}
-  >
-    <option value="">Chọn điểm NPS (0–10)</option>
-
-    {Array.from({ length: 11 }, (_, i) => (
-      <option key={i} value={i}>
-        {i} điểm
-      </option>
-    ))}
-  </select>
-</div>
-
         <textarea
           rows="4"
           value={feedback}
@@ -228,7 +315,6 @@ function App() {
   );
 }
 
-
 function MarketingPage() {
   return (
     <div>
@@ -237,32 +323,43 @@ function MarketingPage() {
   );
 }
 
-
-function MainPage() {
+// --- 3. MAIN PAGE VÀ ĐIỀU HƯỚNG ĐĂNG NHẬP ---
+export default function MainPage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
   const [page, setPage] = useState("survey");
+
+  if (!isLoggedIn) {
+    return <LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />;
+  }
 
   return (
     <>
-      <nav className="main-nav">
-        <button onClick={() => setPage("survey")}>
-          Khảo sát khách hàng
-        </button>
-
-        <button onClick={() => setPage("statistics")}>
-          Thống kê Marketing
-        </button>
-
-        <button onClick={() => setPage("list")}>
-          Danh sách khảo sát
+      <nav className="main-nav" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 20px" }}>
+        <div>
+          <button onClick={() => setPage("survey")}>
+            Khảo sát khách hàng
+          </button>
+          <button onClick={() => setPage("statistics")}>
+            Thống kê Marketing
+          </button>
+          <button onClick={() => setPage("list")}>
+            Danh sách khảo sát
+          </button>
+        </div>
+        <button 
+          onClick={() => {
+            localStorage.removeItem("token");
+            setIsLoggedIn(false);
+          }}
+          style={{ background: "#e74c3c", color: "white" }}
+        >
+          Đăng xuất
         </button>
       </nav>
 
-      {page === "survey" && <App />}
+      {page === "survey" && <SurveyFormApp />}
       {page === "statistics" && <MarketingPage />}
       {page === "list" && <SurveyList />}
     </>
   );
 }
-
-export default MainPage;
-

@@ -1,9 +1,12 @@
 
 const express = require("express");
+const cors = require("cors");
 const { randomUUID } = require("node:crypto");
 
 const app = express();
 
+// Kích hoạt CORS
+app.use(cors());
 app.use(express.json());
 
 // Ghi log mỗi yêu cầu API
@@ -22,7 +25,7 @@ app.use((req, res, next) => {
     const duration = Date.now() - start;
 
     console.info(
-      `[INFO] [${requestId}] HTTP ${res.statusCode} - ${duration}ms`
+      `[INFO] [${requestId}] HTTP ${res.statusCode} ${duration}ms`
     );
   });
 
@@ -37,19 +40,23 @@ app.get("/health", (req, res) => {
   });
 });
 
-// API kiểm tra
-app.get("/test-route", (req, res) => {
-  res.json({ message: "Route hoat dong" });
-});
+// Đăng ký Auth Routes
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/v1/auth", authRoutes);
+console.log("Auth routes đã được đăng ký thành công");
 
-// Đăng ký API khảo sát
+// Đăng ký Survey Routes
 const surveyRoutes = require("./routes/survey.routes");
-app.use("/api/surveys", surveyRoutes);
+app.use("/api/v1/surveys", surveyRoutes);
+console.log("Survey routes đã được đăng ký thành công");
 
-console.log("Survey routes đã được đăng ký");
-
-const errorHandler = require("./middlewares/error.middleware");
+// Đăng ký Warranty Routes
+const warrantyRoutes = require("./routes/warranty.routes");
+app.use("/api/v1/warranty-tickets", warrantyRoutes);
+console.log("Warranty routes đã được đăng ký thành công");
 
 // Xử lý lỗi tập trung
+const errorHandler = require("./middlewares/error.middleware");
 app.use(errorHandler);
+
 module.exports = app;
