@@ -111,4 +111,4 @@ Các hàm repository được giả lập trong những test case cần thiết 
 
 Test Plan được xây dựng nhằm xác định mục tiêu, phạm vi, phương pháp và tiêu chí kiểm thử cho chức năng gửi khảo sát CSAT/NPS.
 
-Bộ kiểm thử hiện có 12 test case. Kết quả báo cáo nghiệp vụ gồm 12 test case. Bộ kiểm thử tự động toàn dự án chạy trong Docker đạt 49 PASS và 0 FAIL qua hai lần chạy liên tiếp.
+Bộ kiểm thử hiện có 12 test case. Kết quả báo cáo nghiệp vụ gồm 12 test case. Bộ kiểm thử tự động toàn dự án đã đạt 49 PASS và 0 FAIL qua hai lần chạy liên tiếp trong Docker. Sau khi bổ sung 2 bài kiểm thử xử lý lỗi HTTP 400/500, kết quả chạy mới nhất đạt 51 PASS và 0 FAIL.
