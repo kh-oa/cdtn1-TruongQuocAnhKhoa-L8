@@ -49,11 +49,11 @@
 
 Lệnh thực hiện kiểm thử:
 
-`npm.cmd test`
+`docker compose exec -T backend npm test`
 
 ## 5. Phương pháp kiểm thử
 
-Áp dụng phương pháp kiểm thử đơn vị (Unit Testing) bằng Node.js Test Runner.
+Áp dụng Unit Testing và API Testing bằng Node.js Test Runner. Các kiểm thử service tập trung vào nghiệp vụ khảo sát; các kiểm thử API tập trung vào xác thực JWT và phân quyền người dùng.
 
 Các kỹ thuật được sử dụng:
 
@@ -111,4 +111,4 @@ Các hàm repository được giả lập trong những test case cần thiết 
 
 Test Plan được xây dựng nhằm xác định mục tiêu, phạm vi, phương pháp và tiêu chí kiểm thử cho chức năng gửi khảo sát CSAT/NPS.
 
-Bộ kiểm thử hiện có 12 test case. Kết quả chạy `npm.cmd test` ghi nhận 12 PASS và 0 FAIL.
+Bộ kiểm thử hiện có 12 test case. Kết quả báo cáo nghiệp vụ gồm 12 test case. Bộ kiểm thử tự động toàn dự án chạy trong Docker đạt 49 PASS và 0 FAIL qua hai lần chạy liên tiếp.
