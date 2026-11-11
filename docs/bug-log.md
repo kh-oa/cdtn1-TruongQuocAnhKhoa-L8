@@ -39,4 +39,4 @@
 - **Severity:** 3 Major
 - **Đã sửa:** 3
 - **Chưa sửa:** 0
-- **Bộ kiểm thử tự động:** 35 PASS / 35 tests tại thời điểm chạy kiểm thử
+- **Bộ kiểm thử tự động:** 49 PASS / 49 tests (kiểm thử trong Docker ngày 11/11/2026)

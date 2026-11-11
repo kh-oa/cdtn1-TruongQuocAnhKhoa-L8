@@ -54,7 +54,7 @@
 
 | TC-11 | Boundary | NPS = -1 | Gửi khảo sát với NPS dưới 0 | Từ chối yêu cầu | Test xác nhận NPS bị từ chối | PASS | [Ảnh TC-11](screenshots/TC-11_Pass.png) |
 
-| TC-12 | Boundary | NPS = 11 | Gửi khảo sát với NPS trên 10 | Từ chối yêu cầu | Test xác nhận NPS bị từ chối | PASS | [Ảnh TC-12](screenshots/TC-12_Pass.png) |
+| TC-12 | Security | Không gửi JWT | Gửi DELETE /api/v1/warranty-tickets/1 không có Authorization | HTTP 401, success = false | HTTP 401, success = false | PASS | [Log kiểm thử](test-results.txt) |
 
 
 
@@ -62,9 +62,9 @@
 
 
 
-- Tổng số test tự động toàn dự án: **35**
+- Tổng số test tự động toàn dự án: **49**
 
-- PASS: **35**
+- PASS: **49**
 
 - FAIL: **0**
 
@@ -74,7 +74,7 @@
 
 - Các loại đã thể hiện: Happy Path, Boundary, Invalid Data, Data Quality
 
-- Security và Reproducibility: Có các bài kiểm thử liên quan trong bộ 35 test, cần bổ sung vào báo cáo hoặc dẫn chiếu cụ thể.
+- Security và Reproducibility: Có các bài kiểm thử liên quan trong bộ 49 test, cần bổ sung vào báo cáo hoặc dẫn chiếu cụ thể.
 
 
 
@@ -82,7 +82,7 @@
 
 
 
-Bộ kiểm thử tự động chạy thành công với 35/35 bài test PASS và không có bài test FAIL. Riêng chức năng khảo sát CSAT/NPS có 12 trường hợp kiểm thử đạt yêu cầu.
+Bộ kiểm thử tự động chạy thành công với 49/49 bài test PASS và không có bài test FAIL. Riêng chức năng khảo sát CSAT/NPS có 12 trường hợp kiểm thử đạt yêu cầu.
 
 
 
@@ -104,9 +104,9 @@ Bộ kiểm thử tự động chạy thành công với 35/35 bài test PASS v�
 
 ## 6. Reproducibility Testing
 
-- Lần chạy 1: 35 PASS, 0 FAIL.
-- Lần chạy 2: 35 PASS, 0 FAIL.
-- Kết luận: Kết quả nhất quán qua hai lần chạy trong môi trường kiểm thử hiện tại.
-- Minh chứng: `test-results.txt` và `test-results-rerun.txt`.
+- Lần chạy 1 trong Docker: 49 PASS, 0 FAIL.
+- Lần chạy 2 trong Docker: 49 PASS, 0 FAIL.
+- Kết luận: Bộ 49 test đạt 100% PASS trong hai lần chạy liên tiếp trên cùng môi trường Docker.
+- Minh chứng: `docs/test-results.txt` và `docs/test-results-rerun.txt`.
 
 
