@@ -30,5 +30,16 @@ Cấu hình Backend để sử dụng các file trong thư mục db khi chạy t
 
 Bổ sung kiểm thử cho các trường hợp dữ liệu hợp lệ, dữ liệu ngoài giới hạn, thiếu hoặc không hợp lệ thông tin phiếu bảo hành và gửi khảo sát trùng.
 
+## 4. Các thay đổi và xác minh trong BT3
 
+### 4.1. Kiểm thử và xử lý lỗi
+Bổ sung kiểm thử HTTP 400 và HTTP 500 cho middleware xử lý lỗi. Kết quả kiểm thử tự động mới nhất trong Docker: 51 PASS, 0 FAIL. Bằng chứng: docs/test-results-final.txt.
 
+### 4.2. Xác thực và bảo mật
+Xác minh các API thống kê, danh sách và chi tiết khảo sát yêu cầu JWT. Các yêu cầu không có JWT hợp lệ bị từ chối; các yêu cầu có JWT hợp lệ đã được kiểm tra thành công.
+
+### 4.3. Khả năng triển khai lại
+Kiểm tra Fresh Clone bằng Docker Compose với database độc lập. Backend health check thành công, dữ liệu seed gồm 3 phiếu bảo hành và 0 khảo sát.
+
+### 4.4. Tài liệu kiểm thử và triển khai
+Hoàn thiện Test Plan, Test Report, Bug Log, Deployment Guide, Security Checklist và API Documentation để phục vụ nghiệm thu BT3.

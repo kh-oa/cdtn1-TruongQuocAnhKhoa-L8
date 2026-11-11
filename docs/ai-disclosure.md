@@ -12,6 +12,7 @@ Tài liệu khai báo việc sử dụng công cụ AI trong quá trình học t
 | ChatGPT | Hướng dẫn phân tích lỗi, rà soát cấu trúc Backend và đề xuất cách hoàn thiện tài liệu | README.md, src/routes/survey.routes.js, src/services/survey.service.js, src/repositories/survey.repository.js, tài liệu trong docs/ | Đọc lại nội dung, đối chiếu với dự án thực tế và chạy lệnh kiểm tra phù hợp |
 | ChatGPT | Hướng dẫn kiểm tra migration, seed và kiểm thử | db/migrate.js, db/seed.js, tests/survey.service.test.js | Chạy migration và seed trong Docker; chạy bộ kiểm thử và kiểm tra dữ liệu PostgreSQL |
 | ChatGPT | Hỗ trợ soạn thảo tài liệu phục vụ bài tập | docs/thay-doi-thiet-ke.md, docs/ai-disclosure.md | Sinh viên tự rà soát, chỉnh sửa và xác nhận nội dung phù hợp với phần đã thực hiện |
+| ChatGPT | Hỗ trợ thiết kế kiểm thử HTTP 500/400 và rà soát báo cáo kiểm thử, Security Checklist | tests/error.middleware.test.js, docs/test-report.md, docs/security-checklist.md | Chạy bộ kiểm thử trong Docker, đối chiếu docs/test-results-final.txt: 51 PASS, 0 FAIL |
 
 ## 3. Trách nhiệm của sinh viên
 
