@@ -1,0 +1,109 @@
+﻿
+> cdtn1-truongquocanhkhoa-l8@1.0.0 test
+> node --test tests/*.test.js
+
+Γùç injected env (0) from .env
+Γùç injected env (0) from .env
+Auth routes da duoc dang ky thanh cong
+Survey routes da duoc dang ky thanh cong
+Warranty routes da duoc dang ky thanh cong
+[INFO] [e5efebfa-6389-4096-adb8-a514182c824c] DELETE /api/v1/warranty-tickets/1
+[INFO] [e5efebfa-6389-4096-adb8-a514182c824c] HTTP 401 3ms
+Γ£ö Kh├┤ng c├│ JWT trß║ú vß╗ü HTTP 401 (26.672912ms)
+[INFO] [59fa57e1-3c75-447f-b596-9f8bdee17512] DELETE /api/v1/warranty-tickets/1
+[INFO] [59fa57e1-3c75-447f-b596-9f8bdee17512] HTTP 401 1ms
+Γ£ö JWT giß║ú mß║ío trß║ú vß╗ü HTTP 401 (5.900551ms)
+[INFO] [8d9df558-8b5d-4934-9517-5e073411be59] DELETE /api/v1/warranty-tickets/1
+[INFO] [8d9df558-8b5d-4934-9517-5e073411be59] HTTP 401 2ms
+Γ£ö JWT hß║┐t hß║ín trß║ú vß╗ü HTTP 401 (8.44527ms)
+[INFO] [33fad3f9-1bd5-445d-95ed-a5fab7b77277] DELETE /api/v1/warranty-tickets/1
+[INFO] [33fad3f9-1bd5-445d-95ed-a5fab7b77277] HTTP 403 2ms
+Γ£ö Staff gß╗ìi DELETE trß║ú vß╗ü HTTP 403 (6.423522ms)
+[INFO] [dbce48a8-0892-4d65-92e8-6321fcd34276] GET /api/v1/warranty-tickets
+[INFO] [dbce48a8-0892-4d65-92e8-6321fcd34276] HTTP 200 21ms
+Γ£ö Staff c├│ thß╗â gß╗ìi GET (25.616228ms)
+[INFO] [97d68f99-f5aa-43ef-8a5a-6ac8de743f16] POST /api/v1/auth/login
+[WARN] [97d68f99-f5aa-43ef-8a5a-6ac8de743f16] HTTP 400
+[INFO] [97d68f99-f5aa-43ef-8a5a-6ac8de743f16] HTTP 400 2ms
+Γ£ö ─É─âng nhß║¡p thiß║┐u username trß║ú vß╗ü HTTP 400 (23.698163ms)
+[INFO] [30d1fb64-d8c8-4eaa-a105-c3b2c4992c92] POST /api/v1/auth/login
+[WARN] [30d1fb64-d8c8-4eaa-a105-c3b2c4992c92] HTTP 400
+[INFO] [30d1fb64-d8c8-4eaa-a105-c3b2c4992c92] HTTP 400 1ms
+Γ£ö ─É─âng nhß║¡p thiß║┐u password trß║ú vß╗ü HTTP 400 (10.138268ms)
+[INFO] [1577fc0b-2749-4ad9-9d6b-c7807cd5bd18] POST /api/v1/auth/login
+[WARN] [1577fc0b-2749-4ad9-9d6b-c7807cd5bd18] HTTP 401
+[INFO] [1577fc0b-2749-4ad9-9d6b-c7807cd5bd18] HTTP 401 3ms
+Γ£ö ─É─âng nhß║¡p sai t├ái khoß║ún bß╗ï tß╗½ chß╗æi (7.784329ms)
+Γ£ö Admin ─æ╞░ß╗úc ph├⌐p x├│a (1.565943ms)
+Γ£ö Staff bß╗ï tß╗½ chß╗æi quyß╗ün x├│a - HTTP 403 (0.354011ms)
+Γ£ö Ch╞░a ─æ─âng nhß║¡p bß╗ï tß╗½ chß╗æi - HTTP 401 (0.22611ms)
+Γùç injected env (0) from .env
+Γ£ö Tß╗½ chß╗æi khi thiß║┐u username (1.943924ms)
+Γ£ö Tß╗½ chß╗æi khi thiß║┐u password (0.440515ms)
+Γ£ö Tß╗½ chß╗æi username kh├┤ng hß╗úp lß╗ç (0.180753ms)
+Γ£ö Tß╗½ chß╗æi password kh├┤ng hß╗úp lß╗ç (0.326623ms)
+Γ£ö HTTP 500 hides internal error details (26.862964ms)
+Γ£ö HTTP 400 preserves validation message (6.145886ms)
+Γùç injected env (0) from .env
+Γùç injected env (0) from .env
+Auth routes da duoc dang ky thanh cong
+Survey routes da duoc dang ky thanh cong
+Warranty routes da duoc dang ky thanh cong
+[INFO] [78f6a469-cc79-49c2-a786-936c05820275] DELETE /api/v1/surveys/999999
+[INFO] [78f6a469-cc79-49c2-a786-936c05820275] HTTP 401 4ms
+Γ£ö Survey DELETE khong co JWT tra ve 401 (27.211613ms)
+[INFO] [1c0b17c0-eb89-4c39-a97a-72f8e2264f79] DELETE /api/v1/surveys/999999
+[INFO] [1c0b17c0-eb89-4c39-a97a-72f8e2264f79] HTTP 401 1ms
+Γ£ö Survey DELETE JWT gia mao tra ve 401 (6.148898ms)
+[INFO] [426e7cb7-2e07-4a83-920b-7df505d61028] DELETE /api/v1/surveys/999999
+[INFO] [426e7cb7-2e07-4a83-920b-7df505d61028] HTTP 403 2ms
+Γ£ö Survey DELETE Staff tra ve 403 (9.443601ms)
+[INFO] [bf074c4c-a74e-4a78-8846-8237b0ff693d] PUT /api/v1/surveys/999999
+[INFO] [bf074c4c-a74e-4a78-8846-8237b0ff693d] HTTP 401 1ms
+Γ£ö Survey PUT khong co JWT tra ve 401 (9.419277ms)
+[INFO] [08a2f416-f8f7-4ad1-97ce-4e820857fac1] PUT /api/v1/surveys/999999
+[INFO] [08a2f416-f8f7-4ad1-97ce-4e820857fac1] HTTP 403 1ms
+Γ£ö Survey PUT Staff tra ve 403 (9.017361ms)
+[INFO] [46813dc2-f44e-4f6c-a98f-421dd8ac74eb] DELETE /api/v1/surveys/999999
+[INFO] [46813dc2-f44e-4f6c-a98f-421dd8ac74eb] HTTP 404 35ms
+Γ£ö Survey DELETE Admin qua buoc phan quyen (42.147193ms)
+[INFO] [8550486f-2596-4430-a6ec-e09628e867a2] PUT /api/v1/surveys/999999
+[INFO] [8550486f-2596-4430-a6ec-e09628e867a2] HTTP 404 2ms
+Γ£ö Survey PUT Admin qua buoc phan quyen (5.900339ms)
+Γùç injected env (0) from .env
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi rating nh├í┬╗┬Å h├å┬ín 1 (2.437933ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi rating l├í┬╗ΓÇ║n h├å┬ín 5 (0.324418ms)
+Γ£ö Ch├í┬║┬Ñp nh├í┬║┬¡n ├äΓÇÿi├í┬╗╞Æm ├í┬╗┼╕ bi├â┬¬n d├å┬░├í┬╗ΓÇ║i (0.622351ms)
+Γ£ö Ch├í┬║┬Ñp nh├í┬║┬¡n ├äΓÇÿi├í┬╗╞Æm ├í┬╗┼╕ bi├â┬¬n tr├â┬¬n (0.659936ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi phi├í┬║┬┐u b├í┬║┬úo h├â┬ánh kh├â┬┤ng h├í┬╗┬úp l├í┬╗ΓÇí (0.865061ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi kh├í┬║┬úo s├â┬ít tr├â┬╣ng (0.463835ms)
+Γ£ö Ch├í┬║┬Ñp nh├í┬║┬¡n g├í┬╗┬¡i kh├í┬║┬úo s├â┬ít h├í┬╗┬úp l├í┬╗ΓÇí (0.374595ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi khi thi├í┬║┬┐u rating (0.582596ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi ticket_id b├í┬║┬▒ng 0 (1.07687ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi ticket_id kh├â┬┤ng ph├í┬║┬úi s├í┬╗ΓÇÿ nguy├â┬¬n (1.144088ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi NPS nh├í┬╗┬Å h├å┬ín 0 (0.589872ms)
+Γ£ö T├í┬╗┬½ ch├í┬╗ΓÇÿi NPS l├í┬╗ΓÇ║n h├å┬ín 10 (0.488096ms)
+Γ£ö Chap nhan feedback hop le (0.882523ms)
+Γ£ö Chap nhan feedback de trong (0.102348ms)
+Γ£ö Chap nhan feedback dung 1000 ky tu (0.265343ms)
+Γ£ö Tu choi feedback khong phai chuoi (0.262848ms)
+Γ£ö Tu choi feedback qua 1000 ky tu (0.352659ms)
+Γ£ö Tu choi feedback sai kieu khi cap nhat (0.586475ms)
+Γ£ö Tu choi feedback qua 1000 ky tu khi cap nhat (0.293262ms)
+Γùç injected env (0) from .env
+Γ£ö Tß╗½ chß╗æi khi thiß║┐u m├ú phiß║┐u (2.394462ms)
+Γ£ö Tß╗½ chß╗æi khi thiß║┐u t├¬n sß║ún phß║⌐m (0.326283ms)
+Γ£ö Tß╗½ chß╗æi khi thiß║┐u trß║íng th├íi (0.205706ms)
+Γ£ö Tß╗½ chß╗æi m├ú phiß║┐u qu├í 50 k├╜ tß╗▒ (0.309717ms)
+Γ£ö Tß╗½ chß╗æi ng├áy ho├án th├ánh sai ─æß╗ïnh dß║íng (0.326543ms)
+Γ£ö Tß╗½ chß╗æi ID bß║▒ng 0 (0.387181ms)
+Γ£ö Tß╗½ chß╗æi ID kh├┤ng phß║úi sß╗æ nguy├¬n (0.237274ms)
+Γ£ö Tß╗½ chß╗æi cß║¡p nhß║¡t thiß║┐u t├¬n sß║ún phß║⌐m (0.792551ms)
+Γä╣ tests 51
+Γä╣ suites 0
+Γä╣ pass 51
+Γä╣ fail 0
+Γä╣ cancelled 0
+Γä╣ skipped 0
+Γä╣ todo 0
+Γä╣ duration_ms 10392.477839

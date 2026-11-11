@@ -1,4 +1,4 @@
-# TEST REPORT – L8 CSAT/NPS
+﻿# TEST REPORT – L8 CSAT/NPS
 
 
 
@@ -62,9 +62,9 @@
 
 
 
-- Tổng số test tự động toàn dự án: **49**
+- Tổng số test tự động toàn dự án: **51**
 
-- PASS: **49**
+- PASS: **51**
 
 - FAIL: **0**
 
@@ -81,7 +81,7 @@
 
 
 
-Bộ kiểm thử tự động chạy thành công với 49/49 bài test PASS và không có bài test FAIL. Riêng chức năng khảo sát CSAT/NPS có 12 trường hợp kiểm thử đạt yêu cầu.
+Bộ kiểm thử tự động chạy thành công với 51/51 bài test PASS và không có bài test FAIL. Riêng chức năng khảo sát CSAT/NPS có 12 trường hợp kiểm thử đạt yêu cầu.
 
 
 
@@ -109,3 +109,14 @@ Bộ kiểm thử tự động chạy thành công với 49/49 bài test PASS v�
 - Minh chứng: `docs/test-results.txt` và `docs/test-results-rerun.txt`.
 
 
+
+
+
+
+## 7. Final Automated Test Execution
+- Test command: docker compose exec -T backend npm test
+- Total: 51 tests
+- PASS: 51
+- FAIL: 0
+- Additional tests: HTTP 500 internal error protection and HTTP 400 validation response.
+- Evidence: docs/test-results-final.txt

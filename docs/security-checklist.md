@@ -4,7 +4,7 @@
 
 This document records the security controls, test evidence, and remaining security tasks for the L8 CSAT/NPS application.
 
-The latest automated test run completed successfully with **49 passed tests and 0 failures**.
+The latest automated test run completed successfully with **51 passed tests and 0 failures**.
 
 ## 1. Environment Variables and Secrets
 
@@ -29,7 +29,7 @@ The latest automated test run completed successfully with **49 passed tests and 
 - [x] Survey statistics, list, and detail endpoints reject unauthenticated requests with HTTP 401.
 - [x] The eligible-tickets endpoint rejects unauthenticated requests with HTTP 401.
 - [x] Authenticated users can access the eligible-tickets endpoint through the frontend.
-- [ ] Verify successful access to statistics, list, and detail endpoints using a valid JWT.
+- [x] Verify successful access to statistics, list, and detail endpoints using a valid JWT.
 
 **Evidence:**
 - `src/middlewares/auth.middleware.js`
@@ -62,8 +62,8 @@ The latest automated test run completed successfully with **49 passed tests and 
 - [x] Missing or null feedback is accepted.
 - [x] Feedback validation is implemented for both survey creation and updates.
 - [x] Seven additional automated tests cover feedback validation.
-- [x] All 49 automated tests passed after the feedback validation update.
-- [ ] Verify that the PostgreSQL feedback column supports the configured maximum length.
+- [x] All 51 automated tests passed after the feedback validation update.
+- [x] Verify that the PostgreSQL feedback column supports the configured maximum length.
 
 **Evidence:**
 - `src/services/survey.service.js`
@@ -95,9 +95,9 @@ The latest automated test run completed successfully with **49 passed tests and 
 - [x] The reported high-severity body-parser vulnerability was addressed.
 - [x] The latest production dependency audit reported zero vulnerabilities.
 - [x] All 42 automated tests passed after the dependency update.
-- [x] The latest test run passed all 49 automated tests after feedback validation changes.
+- [x] The latest test run passed all 51 automated tests after feedback validation changes.
 - [x] Backend Docker image was rebuilt after the dependency update.
-- [ ] Rebuild the backend Docker image after the latest feedback validation changes.
+- [x] Rebuild the backend Docker image after the latest feedback validation changes.
 
 **Evidence:**
 - `npm audit fix`
@@ -116,14 +116,14 @@ The latest automated test run completed successfully with **49 passed tests and 
 - [x] The eligible-tickets endpoint requires JWT authentication.
 - [x] Unauthenticated requests to eligible-tickets return HTTP 401.
 - [x] Authenticated users can view eligible warranty tickets in the frontend.
-- [x] The frontend successfully displayed ticket BH001 – Laptop Dell after login.
+- [x] The frontend successfully displayed ticket BH001 â€“ Laptop Dell after login.
 - [x] CORS is restricted to configured frontend origins.
 - [x] Requests from `http://localhost:5173` receive the expected Access-Control-Allow-Origin header.
 - [x] Requests from `http://evil.example` do not receive the Access-Control-Allow-Origin header.
 - [x] CORS configuration was applied through a successful Docker rebuild.
 - [ ] Restrict eligible ticket visibility by user if required by the access policy.
 - [ ] Verify production-specific CORS origins before public deployment.
-- [ ] Verify deployment with a fresh, isolated database.
+- [x] Verify deployment with a fresh, isolated database.
 
 **Evidence:**
 - `docker-compose.yml`
@@ -139,8 +139,8 @@ The latest automated test run completed successfully with **49 passed tests and 
 
 | Test Result | Value |
 |---|---|
-| Total tests | 49 |
-| Passed | 49 |
+| Total tests | 51 |
+| Passed | 51 |
 | Failed | 0 |
 | Additional feedback tests | 7 |
 | Production dependency vulnerabilities reported | 0 |
@@ -150,11 +150,11 @@ The latest automated test run completed successfully with **49 passed tests and 
 | CORS disallowed-origin verification | Passed |
 | HTTP 4xx logging verification | Passed |
 | Previous backend Docker rebuild | Passed |
-| Latest feedback validation Docker rebuild | Pending |
+| Latest feedback validation Docker rebuild | Passed |
 
 ## Final Status
 
-The application passed all **49 automated tests**, with zero failures.
+The application passed all **51 automated tests**, with zero failures.
 
 The latest production dependency audit reported zero vulnerabilities.
 
@@ -162,7 +162,7 @@ JWT authentication and role-based authorization have been implemented for protec
 
 Manual verification confirmed that four protected Survey GET endpoints reject unauthenticated requests with HTTP 401.
 
-The eligible-tickets endpoint was verified through the authenticated frontend. Ticket BH001 – Laptop Dell was displayed successfully.
+The eligible-tickets endpoint was verified through the authenticated frontend. Ticket BH001 â€“ Laptop Dell was displayed successfully.
 
 CORS configuration was verified using PowerShell. The approved localhost frontend origin received the expected CORS response header, while the unapproved origin did not.
 
@@ -175,11 +175,13 @@ Seven additional feedback validation tests were added, bringing the automated te
 Remaining tasks include:
 
 - Production secrets verification.
-- Authenticated endpoint verification.
 - HTTP 5xx logging review.
-- PostgreSQL feedback column compatibility verification.
-- Backend Docker rebuild after the latest feedback changes.
-- Fresh isolated database deployment testing.
 - Production-specific CORS configuration review.
 
 These remaining checks must be completed or reviewed before declaring the application production-ready.
+
+### Fresh Clone Verification Evidence
+- Fresh clone was deployed using an isolated Docker Compose project (l8-fresh-clone).
+- PostgreSQL initialization succeeded with 3 warranty tickets and 0 surveys.
+- Backend health endpoint returned OK at http://localhost:3200/health.
+- The original database remained intact with 8 surveys.
