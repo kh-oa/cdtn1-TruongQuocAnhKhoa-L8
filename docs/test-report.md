@@ -1,4 +1,4 @@
-﻿# TEST REPORT – L8 CSAT/NPS
+# TEST REPORT – L8 CSAT/NPS
 
 
 
@@ -14,11 +14,11 @@
 
 - Công cụ: Node.js Test Runner
 
-- Phương pháp: Unit Testing
+- Phương pháp: Unit Testing và API/Integration Testing
 
 - Ngày kiểm thử: 10/11/2026
 
-- Lệnh kiểm thử: `npm.cmd test`
+- Lệnh kiểm thử: `docker compose exec -T backend npm test` (trong Docker)
 
 - Minh chứng: `docs/test-results.txt`
 
@@ -72,9 +72,8 @@
 
 - Số test case khảo sát được báo cáo: **12**
 
-- Các loại đã thể hiện: Happy Path, Boundary, Invalid Data, Data Quality
+- Các loại đã thể hiện: Happy Path, Boundary, Invalid Data, Data Quality, Security
 
-- Security và Reproducibility: Có các bài kiểm thử liên quan trong bộ 49 test, cần bổ sung vào báo cáo hoặc dẫn chiếu cụ thể.
 
 
 
