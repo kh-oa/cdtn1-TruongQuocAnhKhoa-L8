@@ -414,4 +414,16 @@ The initialization logs should confirm that migrations and seed scripts complete
 
 
 
-\*\*Verification note:\*\* The application has been verified using an existing local database. A separate clean-database deployment test is still required to confirm full reproducibility.
+\*\*Verification note:\*\* The application was first verified using an existing local database. Independent fresh clone verification also completed successfully on November 11, 2026.
+
+- Source: Fresh Git clone of the public repository.
+- Docker Compose project: `l8-fresh-clone` (isolated from existing environments).
+- Backend: `http://localhost:3200` — healthy.
+- Frontend: `http://localhost:5175` — running.
+- PostgreSQL 18: healthy, with a dedicated Docker volume.
+- Database initialization: exited with code 0.
+- API `GET /health`: HTTP 200, status `OK`.
+- Seed verification: 3 warranty tickets.
+- Survey verification: 0 records in the fresh database.
+
+Result: PASS. The application was successfully built and started from a fresh clone with an independent database.
