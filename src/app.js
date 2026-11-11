@@ -5,11 +5,27 @@ const { randomUUID } = require("node:crypto");
 
 const app = express();
 
-// Kích hoạt CORS
-app.use(cors());
+// Gioi han CORS theo danh sach frontend duoc phep
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(null, false);
+    }
+  })
+);
+
 app.use(express.json());
 
-// Ghi log mỗi yêu cầu API
+// Ghi log API, khong ghi query parameters
 app.use((req, res, next) => {
   const requestId = randomUUID();
   const start = Date.now();
@@ -17,8 +33,9 @@ app.use((req, res, next) => {
   req.requestId = requestId;
   res.setHeader("X-Request-ID", requestId);
 
+  // req.path khong chua query string
   console.info(
-    `[INFO] [${requestId}] ${req.method} ${req.originalUrl}`
+    `[INFO] [${requestId}] ${req.method} ${req.path}`
   );
 
   res.on("finish", () => {
@@ -32,7 +49,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Kiểm tra Backend
+// Kiem tra Backend
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "OK",
@@ -40,24 +57,24 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Đăng ký Auth Routes
+// Dang ky Auth Routes
 const authRoutes = require("./routes/auth.routes");
 app.use("/api/v1/auth", authRoutes);
-console.log("Auth routes đã được đăng ký thành công");
+console.log("Auth routes da duoc dang ky thanh cong");
 
-// Đăng ký Survey Routes
+// Dang ky Survey Routes
 const surveyRoutes = require("./routes/survey.routes");
 app.use("/api/v1/surveys", surveyRoutes);
-console.log("Survey routes đã được đăng ký thành công");
+console.log("Survey routes da duoc dang ky thanh cong");
 
-// Đăng ký Warranty Routes
+// Dang ky Warranty Routes
 const { requireAuth } = require("./middlewares/auth.middleware");
 
 const warrantyRoutes = require("./routes/warranty.routes");
 app.use("/api/v1/warranty-tickets", requireAuth, warrantyRoutes);
-console.log("Warranty routes đã được đăng ký thành công");
+console.log("Warranty routes da duoc dang ky thanh cong");
 
-// Xử lý lỗi tập trung
+// Xu ly loi tap trung
 const errorHandler = require("./middlewares/error.middleware");
 app.use(errorHandler);
 

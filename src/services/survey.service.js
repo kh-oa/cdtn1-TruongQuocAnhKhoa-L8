@@ -1,18 +1,36 @@
 
 const repository = require("../repositories/survey.repository");
 
+const MAX_FEEDBACK_LENGTH = 1000;
+
 function createError(message, statusCode) {
   const error = new Error(message);
   error.statusCode = statusCode;
   return error;
 }
 
-// Lấy danh sách phiếu chưa đánh giá
+function validateFeedback(feedback) {
+  if (feedback === undefined || feedback === null) {
+    return null;
+  }
+
+  if (typeof feedback !== "string") {
+    throw createError("Feedback phai la chuoi van ban", 400);
+  }
+
+  if (feedback.length > MAX_FEEDBACK_LENGTH) {
+    throw createError("Feedback khong duoc qua 1000 ky tu", 400);
+  }
+
+  return feedback;
+}
+
+// Lay danh sach phieu chua danh gia
 async function getEligibleTickets() {
   return repository.getEligibleTickets();
 }
 
-// Kiểm tra và gửi đánh giá
+// Kiem tra va gui danh gia
 async function submitSurvey(data) {
   const { ticket_id, rating, feedback, nps_score } = data;
 
@@ -38,6 +56,8 @@ async function submitSurvey(data) {
     throw createError("Diem NPS phai tu 0 den 10", 400);
   }
 
+  const validFeedback = validateFeedback(feedback);
+
   const ticket = await repository.findCompletedTicket(ticketId);
 
   if (!ticket) {
@@ -47,7 +67,7 @@ async function submitSurvey(data) {
   const survey = await repository.createSurvey(
     ticketId,
     rating,
-    feedback ?? null,
+    validFeedback,
     nps_score ?? null
   );
 
@@ -58,7 +78,7 @@ async function submitSurvey(data) {
   return survey;
 }
 
-// Lấy thống kê
+// Lay thong ke
 async function getStatistics() {
   return repository.getStatistics();
 }
@@ -67,8 +87,7 @@ async function getAllSurveys() {
   return repository.getAllSurveys();
 }
 
-
- // Lay khao sat theo ID
+// Lay khao sat theo ID
 async function getSurveyById(id) {
   const surveyId = Number(id);
 
@@ -107,10 +126,12 @@ async function updateSurvey(id, data) {
     throw createError("NPS phai tu 0 den 10", 400);
   }
 
+  const validFeedback = validateFeedback(feedback);
+
   return repository.updateSurvey(
     surveyId,
     rating,
-    feedback ?? null,
+    validFeedback,
     nps_score ?? null
   );
 }
@@ -126,7 +147,6 @@ async function deleteSurvey(id) {
   return repository.deleteSurvey(surveyId);
 }
 
-
 module.exports = {
   getEligibleTickets,
   submitSurvey,
@@ -136,5 +156,3 @@ module.exports = {
   updateSurvey,
   deleteSurvey
 };
-
-

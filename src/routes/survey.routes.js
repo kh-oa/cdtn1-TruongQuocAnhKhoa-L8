@@ -1,11 +1,12 @@
 
 const express = require("express");
 const service = require("../services/survey.service");
+const { requireAuth, requireRole } = require("../middlewares/auth.middleware");
 
 const router = express.Router();
 
-// Lay danh sach phieu chua danh gia
-router.get("/eligible-tickets", async (req, res, next) => {
+// Lay danh sach phieu chua danh gia - Yeu cau dang nhap
+router.get("/eligible-tickets", requireAuth, async (req, res, next) => {
   try {
     const tickets = await service.getEligibleTickets();
 
@@ -18,7 +19,7 @@ router.get("/eligible-tickets", async (req, res, next) => {
   }
 });
 
-// Gui danh gia
+// Gui danh gia - Cong khai
 router.post("/", async (req, res, next) => {
   try {
     const survey = await service.submitSurvey(req.body);
@@ -33,8 +34,8 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// Thong ke CSAT va NPS
-router.get("/statistics", async (req, res, next) => {
+// Thong ke CSAT va NPS - Yeu cau dang nhap
+router.get("/statistics", requireAuth, async (req, res, next) => {
   try {
     const stats = await service.getStatistics();
 
@@ -47,8 +48,8 @@ router.get("/statistics", async (req, res, next) => {
   }
 });
 
-// Lay danh sach tat ca khao sat
-router.get("/", async (req, res, next) => {
+// Lay danh sach tat ca khao sat - Yeu cau dang nhap
+router.get("/", requireAuth, async (req, res, next) => {
   try {
     const surveys = await service.getAllSurveys();
 
@@ -61,10 +62,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-module.exports = router;
-
- // Lay chi tiet khao sat theo ID
-router.get("/:id", async (req, res, next) => {
+// Lay chi tiet khao sat theo ID - Yeu cau dang nhap
+router.get("/:id", requireAuth, async (req, res, next) => {
   try {
     const survey = await service.getSurveyById(req.params.id);
 
@@ -84,49 +83,60 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// Cap nhat khao sat
-router.put("/:id", async (req, res, next) => {
-  try {
-    const survey = await service.updateSurvey(
-      req.params.id,
-      req.body
-    );
+// Cap nhat khao sat - Chi Admin
+router.put(
+  "/:id",
+  requireAuth,
+  requireRole("admin"),
+  async (req, res, next) => {
+    try {
+      const survey = await service.updateSurvey(
+        req.params.id,
+        req.body
+      );
 
-    if (!survey) {
-      return res.status(404).json({
-        success: false,
-        message: "Khong tim thay khao sat"
+      if (!survey) {
+        return res.status(404).json({
+          success: false,
+          message: "Khong tim thay khao sat"
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Cap nhat khao sat thanh cong",
+        data: survey
       });
+    } catch (error) {
+      next(error);
     }
-
-    res.status(200).json({
-      success: true,
-      message: "Cap nhat khao sat thanh cong",
-      data: survey
-    });
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-// Xoa khao sat
-router.delete("/:id", async (req, res, next) => {
-  try {
-    const survey = await service.deleteSurvey(req.params.id);
+// Xoa khao sat - Chi Admin
+router.delete(
+  "/:id",
+  requireAuth,
+  requireRole("admin"),
+  async (req, res, next) => {
+    try {
+      const survey = await service.deleteSurvey(req.params.id);
 
-    if (!survey) {
-      return res.status(404).json({
-        success: false,
-        message: "Khong tim thay khao sat"
+      if (!survey) {
+        return res.status(404).json({
+          success: false,
+          message: "Khong tim thay khao sat"
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Xoa khao sat thanh cong"
       });
+    } catch (error) {
+      next(error);
     }
-
-    res.status(200).json({
-      success: true,
-      message: "Xoa khao sat thanh cong"
-    });
-  } catch (error) {
-    next(error);
   }
-});
+);
+
 module.exports = router;

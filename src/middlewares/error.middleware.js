@@ -7,19 +7,28 @@ function errorHandler(err, req, res, next) {
       ? status
       : 500;
 
-  // Ghi chi tiet loi trong Terminal
-  console.error(
-    `[ERROR] [${req.requestId || "unknown"}]`,
-    err
-  );
+  const requestId = req.requestId || "unknown";
+
+  // Khong ghi stack trace cho loi phia client (4xx)
+  if (statusCode < 500) {
+    console.warn(
+      `[WARN] [${requestId}] HTTP ${statusCode}`
+    );
+  } else {
+    // Ghi chi tiet loi may chu de phuc vu debug
+    console.error(
+      `[ERROR] [${requestId}] HTTP ${statusCode}`,
+      err
+    );
+  }
 
   res.status(statusCode).json({
     success: false,
     message:
-      statusCode === 500
+      statusCode >= 500
         ? "Loi may chu"
-        : err.message,
-    requestId: req.requestId
+        : err.message || "Yeu cau khong hop le",
+    requestId
   });
 }
 
