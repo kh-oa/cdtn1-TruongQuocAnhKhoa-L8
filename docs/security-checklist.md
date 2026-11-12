@@ -116,7 +116,7 @@ The latest automated test run completed successfully with **51 passed tests and 
 - [x] The eligible-tickets endpoint requires JWT authentication.
 - [x] Unauthenticated requests to eligible-tickets return HTTP 401.
 - [x] Authenticated users can view eligible warranty tickets in the frontend.
-- [x] The frontend successfully displayed ticket BH001 â€“ Laptop Dell after login.
+- [x] The frontend successfully displayed ticket BH001 - Laptop Dell after login.
 - [x] CORS is restricted to configured frontend origins.
 - [x] Requests from `http://localhost:5173` receive the expected Access-Control-Allow-Origin header.
 - [x] Requests from `http://evil.example` do not receive the Access-Control-Allow-Origin header.
@@ -162,7 +162,7 @@ JWT authentication and role-based authorization have been implemented for protec
 
 Manual verification confirmed that four protected Survey GET endpoints reject unauthenticated requests with HTTP 401.
 
-The eligible-tickets endpoint was verified through the authenticated frontend. Ticket BH001 â€“ Laptop Dell was displayed successfully.
+The eligible-tickets endpoint was verified through the authenticated frontend. Ticket BH001 - Laptop Dell was displayed successfully.
 
 CORS configuration was verified using PowerShell. The approved localhost frontend origin received the expected CORS response header, while the unapproved origin did not.
 
@@ -170,7 +170,7 @@ Error logging was improved to avoid stack traces for HTTP 4xx errors. Request ID
 
 Feedback validation has been implemented for survey creation and updates. Feedback must be a string when provided, with a maximum length of 1,000 characters. Missing or null feedback is accepted.
 
-Seven additional feedback validation tests were added, bringing the automated test suite to 49 passing tests.
+Seven additional feedback validation tests were added, bringing the automated test suite to 51 passing tests.
 
 Remaining tasks include:
 
