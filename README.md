@@ -316,4 +316,3 @@ Việc kiểm chứng hoàn toàn từ bản clone mới của tag `v1.0` cần 
 - Repository: https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8
 - Tag BT3: https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/tree/v1.0
 
-**Lưu ý:** Các thay đổi README được thực hiện sau khi tạo tag `v1.0` cần được commit và kiểm tra lại phiên bản nộp trên GitHub. Việc sửa README trên nhánh `main` không tự động cập nhật nội dung của tag đã tồn tại.
