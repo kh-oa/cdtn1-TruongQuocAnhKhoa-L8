@@ -2,21 +2,21 @@
 
 **Sinh viên:** Trương Quốc Anh Khoa  
 **MSSV:** 2374802013450  
-**Track:** SE  
+**Track:** Software Engineering (SE)  
 **Luồng:** L8  
 **Học phần:** Chuyên đề Tốt nghiệp 1 – HK1 2026–2027
 
 **GitHub:** https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8
 
-**Phiên bản hiện tại:** v0.2
-
-**Phiên bản dự kiến nộp BT3:** v1.0
+**Phiên bản nộp BT3:** `v1.0`
 
 ## 1. Giới thiệu dự án
 
 Hệ thống khảo sát mức độ hài lòng của khách hàng sau khi hoàn tất bảo hành.
 
 Khách hàng có thể xem các phiếu bảo hành đủ điều kiện, gửi điểm đánh giá và nhận xét. Hệ thống lưu kết quả và cung cấp thống kê CSAT/NPS.
+
+Dự án được phát triển theo Track Software Engineering (SE), sử dụng kiến trúc phân lớp và được đóng gói bằng Docker Compose nhằm hỗ trợ triển khai và kiểm thử có khả năng tái lập.
 
 ## 2. Công nghệ sử dụng
 
@@ -25,101 +25,117 @@ Khách hàng có thể xem các phiếu bảo hành đủ điều kiện, gửi 
 - Database: PostgreSQL 18
 - Authentication: JWT
 - Đóng gói và triển khai: Docker Compose
-- Kiểm thử: Node.js Test Runner
+- Kiểm thử tự động: Node.js Test Runner
+- Quản lý phiên bản: Git, GitHub
 
 ## 3. Chức năng chính
 
 - Lấy danh sách phiếu bảo hành đủ điều kiện khảo sát.
 - Gửi phiếu khảo sát với điểm hài lòng từ 1 đến 5.
 - Lưu nhận xét và điểm NPS từ 0 đến 10.
-- Kiểm tra dữ liệu đầu vào.
+- Kiểm tra dữ liệu đầu vào và giá trị biên.
 - Ngăn gửi khảo sát trùng cho cùng một phiếu bảo hành.
 - Xem danh sách và thống kê khảo sát.
-- Hỗ trợ API xác thực bằng JWT.
+- Xác thực API bằng JWT.
+- Kiểm tra quyền truy cập đối với các thao tác được bảo vệ.
 
 ## 4. Cấu trúc dự án
 
-- `frontend/`: giao diện React.
-- `src/routes/`: định nghĩa các API route.
+- `frontend/`: giao diện React và Vite.
+- `src/routes/`: định nghĩa API routes.
 - `src/services/`: xử lý nghiệp vụ.
 - `src/repositories/`: truy vấn cơ sở dữ liệu.
-- `src/middlewares/`: middleware của Backend.
+- `src/middlewares/`: xác thực, phân quyền và xử lý lỗi.
 - `src/config/`: cấu hình kết nối database.
 - `db/migrations/`: các file migration.
 - `db/seeds/`: dữ liệu mẫu.
-- `tests/`: kiểm thử tự động.
-- `docs/`: tài liệu dự án và bằng chứng kiểm thử.
+- `tests/`: bộ kiểm thử tự động.
+- `docs/`: tài liệu và bằng chứng kiểm thử.
+- `Dockerfile`: đóng gói backend.
+- `frontend/Dockerfile`: đóng gói frontend.
+- `docker-compose.yml`: cấu hình các service.
+- `.env.example`: mẫu cấu hình môi trường.
+- `package-lock.json`: khóa phiên bản dependencies.
 
 ## 5. Yêu cầu môi trường
 
-- Git
-- Docker Desktop có Docker Compose
-- Node.js 24 trở lên (chỉ cần khi chạy kiểm thử trực tiếp trên máy)
+Máy chạy cần có:
 
-Đảm bảo Docker Desktop đang hoạt động trước khi khởi động ứng dụng.
+- Git để tải mã nguồn.
+- Docker Desktop hoặc Docker Engine có Docker Compose.
+- Kết nối Internet trong lần build đầu tiên.
+- Các cổng `3000` và `5173` chưa bị ứng dụng khác chiếm dụng.
+- Dung lượng ổ đĩa đủ để tải Docker images và lưu dữ liệu PostgreSQL.
+
+Node.js 24 chỉ cần cài trực tiếp nếu muốn chạy kiểm thử ngoài Docker.
+
+**Lưu ý:** Docker Desktop phải đang hoạt động trước khi khởi chạy ứng dụng.
 
 ## 6. Hướng dẫn tải và chạy dự án
 
-### Bước 1: Clone repository
+### 6.1. Tải mã nguồn phiên bản BT3
+
+Mở Terminal hoặc PowerShell:
 
 ```bash
-git clone https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8.git
+git clone --branch v1.0 https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8.git
 cd cdtn1-TruongQuocAnhKhoa-L8
 ```
 
-Khi phiên bản `v1.0` được phát hành, có thể sử dụng:
+Lệnh clone tải đúng phiên bản `v1.0` được sử dụng để nộp BT3.
 
-```bash
-git checkout v1.0
-```
+### 6.2. Cấu hình môi trường
 
-### Bước 2: Tạo file môi trường
+Sau khi mở thư mục dự án, hệ thống được thiết lập và khởi chạy bằng hai lệnh chính trên Windows PowerShell.
 
-Trên Windows PowerShell:
+**Lệnh 1 – Tạo file môi trường:**
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Trên Linux hoặc macOS:
+Trên Linux hoặc macOS, dùng lệnh tương đương:
 
 ```bash
 cp .env.example .env
 ```
 
-Mở `.env` và cấu hình:
+File `.env.example` chứa các biến:
 
-- `POSTGRES_PASSWORD`: mật khẩu PostgreSQL.
-- `DB_PASSWORD`: phải giống `POSTGRES_PASSWORD`.
-- `JWT_SECRET`: khóa bí mật dùng để ký JWT, thay bằng giá trị ngẫu nhiên đủ mạnh.
-- `CORS_ORIGIN`: địa chỉ frontend được phép truy cập API.
+| Biến | Ý nghĩa |
+|---|---|
+| `PORT` | Cổng backend |
+| `DB_HOST` | Địa chỉ PostgreSQL |
+| `DB_PORT` | Cổng PostgreSQL |
+| `DB_NAME` | Tên database |
+| `DB_USER` | Tài khoản database |
+| `DB_PASSWORD` | Mật khẩu kết nối database |
+| `POSTGRES_PASSWORD` | Mật khẩu khởi tạo PostgreSQL |
+| `JWT_SECRET` | Khóa ký JWT |
+| `CORS_ORIGIN` | Nguồn frontend được phép gọi API |
 
-Không đưa file `.env` thật lên GitHub.
+Trước khi triển khai ngoài môi trường thử nghiệm, cần thay các giá trị mật khẩu và `JWT_SECRET` mẫu bằng giá trị đủ mạnh. `DB_PASSWORD` phải trùng với `POSTGRES_PASSWORD`.
 
-### Bước 3: Khởi động ứng dụng
+**Không commit file `.env` lên GitHub.**
+
+### 6.3. Khởi chạy hệ thống
+
+**Lệnh 2 – Build và chạy Docker Compose:**
 
 ```bash
 docker compose up -d --build
 ```
 
-Docker Compose tự động khởi động theo thứ tự:
+Docker Compose quản lý bốn service:
 
-1. `db`: PostgreSQL.
-2. `db-init`: chạy migration và seed.
-3. `backend`: khởi động API.
-4. `frontend`: khởi động giao diện React.
+1. `db`: PostgreSQL 18.
+2. `db-init`: chạy migration và seed tự động.
+3. `backend`: Node.js và Express API.
+4. `frontend`: React và Vite.
 
-Không cần chạy migration và seed thủ công.
+Không cần chạy migration hoặc seed thủ công.
 
-### Bước 4: Kiểm tra migration và seed tự động
-
-Kiểm tra log:
-
-```bash
-docker compose logs db-init
-```
-
-Kiểm tra trạng thái:
+### 6.4. Kiểm tra trạng thái
 
 ```bash
 docker compose ps -a
@@ -129,18 +145,26 @@ Kết quả mong đợi:
 
 | Service | Trạng thái |
 |---|---|
-| db | Up (healthy) |
-| db-init | Exited (0) |
-| backend | Up (healthy) |
-| frontend | Up |
+| `db` | Up (healthy) |
+| `db-init` | Exited (0) |
+| `backend` | Up (healthy) |
+| `frontend` | Up |
 
-`Exited (0)` nghĩa là migration và seed đã hoàn thành thành công.
+`Exited (0)` của `db-init` là trạng thái thành công, vì service chỉ thực hiện khởi tạo dữ liệu rồi kết thúc.
 
-### Bước 5: Truy cập ứng dụng
+Có thể kiểm tra log migration và seed:
+
+```bash
+docker compose logs db-init
+```
+
+### 6.5. Truy cập ứng dụng
+
+Sau khi các service khởi chạy:
 
 - Frontend: http://localhost:5173
-- Backend: http://localhost:3000
-- Health check: http://localhost:3000/health
+- Backend API: http://localhost:3000
+- Health Check: http://localhost:3000/health
 
 Kiểm tra Backend bằng PowerShell:
 
@@ -157,53 +181,83 @@ Kết quả mong đợi:
 }
 ```
 
-### Bước 6: Dừng ứng dụng
+### 6.6. Dừng ứng dụng
 
 ```bash
 docker compose down
 ```
 
-Lệnh này dừng các container nhưng giữ nguyên dữ liệu PostgreSQL.
+Lệnh này dừng các container nhưng vẫn giữ dữ liệu PostgreSQL trong Docker volume.
 
-**Lưu ý:** Không sử dụng `docker compose down -v` nếu muốn giữ dữ liệu.
+**Không sử dụng `docker compose down -v` nếu muốn giữ dữ liệu hiện có.**
 
-## 7. Kiểm thử
+Nếu thay đổi mật khẩu PostgreSQL sau khi volume đã được khởi tạo, cần đồng bộ mật khẩu với database hiện tại. Thay đổi biến môi trường không tự động đổi mật khẩu đã lưu trong PostgreSQL.
 
-Cài đặt thư viện:
+## 7. Kiểm thử tự động
+
+### 7.1. Chạy kiểm thử bằng Docker
+
+Sau khi hệ thống đã khởi động:
+
+```bash
+docker compose exec -T backend npm test
+```
+
+### 7.2. Chạy kiểm thử trực tiếp
+
+Nếu máy đã cài Node.js 24:
 
 ```bash
 npm ci
-```
-
-Chạy kiểm thử:
-
-```bash
 npm test
 ```
 
-Nếu sử dụng Windows PowerShell:
+Trên Windows PowerShell, có thể dùng:
 
 ```powershell
 npm.cmd test
 ```
 
-Các bài kiểm thử bao gồm:
+### 7.3. Phạm vi kiểm thử
 
-- Dữ liệu hợp lệ.
-- Giá trị biên.
-- Rating không hợp lệ.
-- Phiếu bảo hành không hợp lệ.
-- Khảo sát trùng.
-- Kiểm tra JWT và phân quyền.
-- Các trường hợp kiểm thử chức năng khác.
+Bộ kiểm thử bao gồm:
 
-Kết quả kiểm thử gần nhất: **42 tests passed, 0 failed**.
+- Kiểm thử dữ liệu hợp lệ và không hợp lệ.
+- Kiểm thử giá trị biên của rating và NPS.
+- Kiểm thử dữ liệu phiếu bảo hành.
+- Kiểm thử khảo sát trùng.
+- Kiểm thử giới hạn độ dài feedback.
+- Kiểm thử xác thực JWT.
+- Kiểm thử phân quyền Admin và Staff.
+- Kiểm thử mã trạng thái HTTP 400, 401, 403, 404 và xử lý lỗi 500.
+- Kiểm thử service, middleware và API.
 
-Kết quả kiểm thử được lưu trong `docs/test-report.md`.
+### 7.4. Kết quả kiểm thử
+
+Kết quả chạy bằng Docker ngày 12/11/2026:
+
+```text
+tests 51
+pass 51
+fail 0
+cancelled 0
+skipped 0
+todo 0
+```
+
+**Tổng kết: 51/51 PASS – Tỷ lệ thành công 100%.**
+
+Bằng chứng được lưu tại:
+
+- `docs/test-results-final.txt`
+- `docs/test-results-rerun.txt`
+- `docs/test-report.md`
 
 ## 8. Dữ liệu mẫu
 
-Khi khởi tạo database mới, hệ thống tự động tạo 3 phiếu bảo hành mẫu:
+Khi khởi tạo database mới, hệ thống tự động chạy migration và seed.
+
+Dữ liệu mẫu gồm ba phiếu bảo hành:
 
 | Mã phiếu | Sản phẩm | Trạng thái |
 |---|---|---|
@@ -211,9 +265,9 @@ Khi khởi tạo database mới, hệ thống tự động tạo 3 phiếu bảo
 | BH002 | Điện thoại Samsung | Hoàn tất |
 | BH003 | Máy tính bảng | Đang xử lý |
 
-Database đã sử dụng trước đó có thể chứa nhiều dữ liệu hơn.
+Database đã sử dụng trước đó có thể chứa nhiều bản ghi hơn.
 
-Kiểm tra số lượng phiếu:
+Kiểm tra số lượng phiếu bảo hành:
 
 ```bash
 docker compose exec db psql -U postgres -d l8_csat_nps -c "SELECT COUNT(*) FROM warranty_ticket;"
@@ -221,25 +275,45 @@ docker compose exec db psql -U postgres -d l8_csat_nps -c "SELECT COUNT(*) FROM 
 
 ## 9. Tài liệu liên quan
 
-- `docs/srs.md`: đặc tả yêu cầu phần mềm.
-- `docs/architecture.drawio`: sơ đồ kiến trúc.
-- `docs/erd.drawio`: sơ đồ cơ sở dữ liệu.
-- `docs/usecase.drawio`: sơ đồ use case.
-- `docs/test-plan.md`: kế hoạch kiểm thử.
-- `docs/test-cases.md`: các trường hợp kiểm thử.
-- `docs/test-report.md`: báo cáo kiểm thử.
-- `docs/bug-log.md`: nhật ký lỗi.
-- `docs/deployment-guide.md`: hướng dẫn triển khai bằng tiếng Anh.
-- `docs/security-checklist.md`: danh sách kiểm tra bảo mật.
-- `docs/thay-doi-thiet-ke.md`: thay đổi thiết kế.
-- `docs/ai-disclosure.md`: khai báo sử dụng AI.
+| Tài liệu | Nội dung |
+|---|---|
+| `docs/srs.md` | Đặc tả yêu cầu phần mềm |
+| `docs/architecture.drawio` | Sơ đồ kiến trúc |
+| `docs/erd.drawio` | Sơ đồ cơ sở dữ liệu |
+| `docs/usecase.drawio` | Sơ đồ use case |
+| `docs/test-plan.md` | Kế hoạch kiểm thử |
+| `docs/test-cases.md` | Các trường hợp kiểm thử |
+| `docs/test-report.md` | Báo cáo kiểm thử |
+| `docs/bug-log.md` | Nhật ký lỗi và cách khắc phục |
+| `docs/deployment-guide.md` | Hướng dẫn triển khai bằng tiếng Anh |
+| `docs/security-checklist.md` | Danh sách kiểm tra bảo mật |
+| `docs/api-documentation.md` | Tài liệu API |
+| `docs/thay-doi-thiet-ke.md` | Lịch sử thay đổi thiết kế |
+| `docs/ai-disclosure.md` | Khai báo sử dụng AI |
 
-## 10. Phiên bản
+## 10. Đóng gói và khả năng tái lập
 
-**v0.2:** Phiên bản đã phát hành trước đó.
+Dự án sử dụng Docker Compose để đóng gói frontend, backend và PostgreSQL.
 
-**v1.0:** Phiên bản dự kiến nộp BT3, bao gồm Docker reproducibility, tài liệu triển khai, kiểm tra bảo mật và API documentation.
+Các thành phần được khai báo trong `docker-compose.yml`, với migration và seed chạy tự động qua `db-init`.
 
-Release hiện có: https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/releases/tag/v0.2
+Trong lần kiểm tra trên máy phát triển ngày 12/11/2026, hệ thống đạt:
 
-Tag `v1.0` sẽ được tạo sau khi hoàn thành và kiểm tra đầy đủ các yêu cầu Buổi 15–16.
+- PostgreSQL: Healthy.
+- `db-init`: Exited (0).
+- Backend: Healthy.
+- Frontend: Up.
+- Bộ kiểm thử: 51 PASS, 0 FAIL.
+
+Việc kiểm chứng hoàn toàn từ bản clone mới của tag `v1.0` cần được thực hiện riêng để xác nhận khả năng tái lập trên môi trường sạch.
+
+## 11. Quản lý phiên bản
+
+**v0.2:** Phiên bản đã phát hành trước BT3.
+
+**v1.0:** Phiên bản được gắn tag để nộp BT3, bao gồm mã nguồn, Docker Compose, migration/seed, bộ kiểm thử và tài liệu kỹ thuật.
+
+- Repository: https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8
+- Tag BT3: https://github.com/kh-oa/cdtn1-TruongQuocAnhKhoa-L8/tree/v1.0
+
+**Lưu ý:** Các thay đổi README được thực hiện sau khi tạo tag `v1.0` cần được commit và kiểm tra lại phiên bản nộp trên GitHub. Việc sửa README trên nhánh `main` không tự động cập nhật nội dung của tag đã tồn tại.
